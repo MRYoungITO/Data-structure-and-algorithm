@@ -4,7 +4,7 @@
 using namespace std;
 
 int main (void) {
-	cout << "这是第二次测试！" << endl;
+	cout << "This is the second test!" << endl;
 
 	system("pause");
 	return 0;
