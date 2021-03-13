@@ -6,7 +6,7 @@ using namespace std;
 int main(void) {
 	int rows = 0;
 	
-	cout << "ÇëÊäÈëÐÐÊý£º";
+	cout << "Please enter the rows: ";
 	cin >> rows;
 
 	for (int i=0; i<rows; i++) {

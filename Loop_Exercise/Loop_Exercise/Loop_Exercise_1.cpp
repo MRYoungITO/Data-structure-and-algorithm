@@ -7,10 +7,10 @@ int main(void) {
 	int rows = 0;
 	int col = 0;
 
-	cout << "请输入行数：";
+	cout << "Please enter the rows: ";
 	cin >> rows;
 
-	cout << "请输入每行需要打印的列数：";
+	cout << "Enter the number of columns to print per row";
 	cin >> col;
 
 	for (int i=0; i<rows; i++) {
