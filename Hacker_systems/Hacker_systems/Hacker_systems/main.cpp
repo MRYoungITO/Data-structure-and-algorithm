@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <string>
 #include <stdio.h>
+#include <conio.h>  //getch()使用
 #include "hacker.h"
 
 
@@ -9,6 +10,25 @@ using namespace std;
 
 #define WIDTH 40
 #define HEIGHT 15
+
+void inputPwd(char pwd[], int size) {
+	char c;
+	int i = 0;
+
+	//  请输入密码:123456
+	//  保存到字符数组pwd:'1'  '2'  '3'  '4'  '5'  '6'    '\0'
+	while(1) {
+		c = getch(); //不会回显
+		//  如果读到回车符,返回'\r'
+		if (c == '\r') {
+			pwd[i] = 0;
+			break;
+		}
+		pwd[i++] = c;
+		cout << '*';
+	}
+	cout << endl;  //printf("\n");
+}
 
 void init(void) {
 	//mode con cols=40 lines=10
@@ -18,11 +38,13 @@ void init(void) {
 }
 
 //  把特定功能的代码,封装成一个"函数"[功能]
-//  以后, 在需要这个功能是,就直接调用这个函数.
+//  以后, 在需要这个功能是,就直接调用这个函数
+
 
 void login(void) {
 	string name;
-	string pwd;
+	//string pwd;
+	char pwd[32];
 	
 	while (1) {
 		system("cls");
@@ -31,9 +53,11 @@ void login(void) {
 		cin >> name;
 
 		cout << "请输入密码: ";
-		cin >> pwd;
+		//cin >> p90wd;
+		//实现密码的输入
+		inputPwd(pwd, sizeof(pwd));
 
-		if (name == "54hk" && pwd == "123456") {
+		if (name == "54hk" && !strcmp(pwd, "123456")) {
 			break;  //return
 		} else {
 			system("pause");
@@ -109,7 +133,7 @@ int menuChoice(void) {
 
 void attack404(void) {
 	char id[64];  //网站的ID
-	char response[MAXSIZE];  //攻击后, 从服务器返回的结果
+	char response[MAXSIZE];  //攻击后, 从服务器返回的结果(UTF-8编码)
 
 	system("cls");
 	
@@ -132,20 +156,69 @@ void attack404(void) {
 
 //  网站篡改攻击
 void siteEdit(void) {
+	char id[64];
+	char response[MAXSIZE];
+	string attackText;
+
 	system("cls");
-	cout << "网站篡改攻击..." << endl;
+
+	printInMiddle("---网站篡改攻击准备---");
+	printInMiddle("请输入准备篡改攻击的网站ID: ");
+	scanf_s("%s", id, sizeof(id));
+
+	cout << "请输入你要写入的内容:  ";
+	cin >> attackText;
+	
+	cout << "正在执行网站篡改攻击...";
+	//把电脑本地的gbk编码转换成服务器端的utf-8编码
+	GBKToUTF8(attackText);
+	hk_tamper(id, (char*)attackText.c_str(), response);
+
+	string retStr = UTF8ToGBK(response);
+	cout << retStr << endl;
+
 	system("pause");
 }
 
 void attackRecord(void) {
+	char id[64];  // 网站ID
+	char response[MAXSIZE];  //攻击后, 从服务器返回的结果(UTF-8编码)
+
 	system("cls");
-	cout << "查看攻击记录..." << endl;
+	//cout << "网站攻击修复..." << endl;
+	printInMiddle("---网站攻击记录---");
+	printInMiddle("请输入查看网站的ID:  ");
+	scanf_s("%s", id, sizeof(id));
+
+	printInMiddle("正在执行修复...\n");
+
+	//攻击修复  
+	hk_restore(id, response);
+	
+	string retStr = UTF8ToGBK(response);
+	cout << retStr << endl;
+
 	system("pause");
 }
 
 void attackRepair(void) {
+	char id[64];  // 网站ID
+	char response[MAXSIZE];  //攻击后, 从服务器返回的结果(UTF-8编码)
+
 	system("cls");
-	cout << "攻击修复..." << endl;
+	//cout << "网站攻击修复..." << endl;
+	printInMiddle("---网站攻击修复---");
+	printInMiddle("请输入准备攻击的网站ID:  ");
+	scanf_s("%s", id, sizeof(id));
+
+	printInMiddle("正在执行修复...\n");
+
+	//攻击修复
+	hk_restore(id, response);
+	
+	string retStr = UTF8ToGBK(response);
+	cout << retStr << endl;
+
 	system("pause");
 }
 
