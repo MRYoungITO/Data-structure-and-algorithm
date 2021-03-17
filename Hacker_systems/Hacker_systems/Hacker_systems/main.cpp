@@ -149,7 +149,7 @@ void attack404(void) {
 	hk_404(id, response);
 	
 	string retStr = UTF8ToGBK(response);
-	cout << retStr;
+	cout << retStr << endl;
 
 	system("pause");
 }
