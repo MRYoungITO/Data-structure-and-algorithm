@@ -3,15 +3,15 @@
 
 int main(void) {
 	int guizi1 = 888;
-	int *guizi2 = &guizi1;		//ÆÕÍ¨Ö¸Õë
-	int **guizi3 = &guizi2;		//¶ş¼¶Ö¸ÏòÒ»¼¶
-	int ***guizi4 = &guizi3;		//Èı¼¶Ö¸Ïò¶ş¼¶
-	int ****guizi5 = &guizi4;	//ËÄ¼¶Ö¸ÏòÈı¼¶
+	int *guizi2 = &guizi1;		//æ™®é€šæŒ‡é’ˆ
+	int **guizi3 = &guizi2;		//äºŒçº§æŒ‡å‘ä¸€çº§
+	int ***guizi4 = &guizi3;	//ä¸‰çº§æŒ‡å‘äºŒçº§
+	int ****guizi5 = &guizi4;	//å››çº§æŒ‡å‘ä¸‰çº§
 
-	printf("¹ñ×Ó2ÄÃÇ¹: %d\n", *guizi2);
-	printf("¹ñ×Ó3ÄÃÇ¹: %d\n", **guizi3);
-	printf("¹ñ×Ó4ÄÃÇ¹: %d\n", ***guizi4);
-	printf("¹ñ×Ó5ÄÃÇ¹: %d\n", ****guizi5);
+	printf("æŸœå­2æ‹¿æª: %d\n", *guizi2);
+	printf("æŸœå­3æ‹¿æª: %d\n", **guizi3);
+	printf("æŸœå­4æ‹¿æª: %d\n", ***guizi4);
+	printf("æŸœå­5æ‹¿æª: %d\n", ****guizi5);
 
 	system("pause");
 	return 0;
