@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <stdio.h>
 #include <Windows.h>
 
 using namespace std;
@@ -27,10 +28,10 @@ void reverse(unsigned char* s) {
 	}
 }
 
-int main(void) {
-	unsigned char str[] = { "我是小萌新" };
+int main1(void) {
+	unsigned char str[] = "我是小萌新";
 	reverse(str);
-	printf("%s\n", str);
+	printf("result: %s\n", str);
 
 	system("pause");
 	return 0;
