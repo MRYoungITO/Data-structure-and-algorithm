@@ -1,6 +1,5 @@
 #include <iostream>
-#include <string>
-#include "Á·Ï°3.h"
+#include <stdlib.h>
 
 using namespace std;
 
@@ -24,10 +23,12 @@ bool find_max_min(int a[], int len, int* max, int* min) {
 }
 
 int main(void) {
-	int a[12] = { 3,9,16,4,7,13,5,8,3,6,2 };
-	int max = 0, min = 0;
+	int a[6] = { 3,9,16,4,7,2 };
+	int max = 0;
+	int min = 0;
 
-	find_max_min(a, 12, &max, &min);
+	find_max_min(a, 6, &max, &min);
+
 	cout << "Max: " << max << " Min: " << min << endl;
 	
 	system("pause");
