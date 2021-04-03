@@ -22,7 +22,7 @@ bool find_max_min(int a[], int len, int* max, int* min) {
 	return true;
 }
 
-int main(void) {
+int main3(void) {
 	int a[6] = { 3,9,16,4,7,2 };
 	int max = 0;
 	int min = 0;
