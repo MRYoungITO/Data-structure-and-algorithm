@@ -13,7 +13,7 @@ void demo() {
 	printf("This is a demo.\n");
 }
 
-int main(void) {
+int main4(void) {
 	printf("--start--\n");
 	demo();
 	printf("--end--\n");
