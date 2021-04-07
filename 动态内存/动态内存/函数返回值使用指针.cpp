@@ -24,7 +24,7 @@ int* add2(int x, int y) {
 	return &sum;
 }
 
-int main(void) {
+int main8(void) {
 	int a = 3, b = 5;
 	int* sum = NULL;
 	//cout << add(a, b) << endl;
