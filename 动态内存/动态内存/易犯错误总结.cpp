@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int main(void) {
+int main10(void) {
 	int* p = new int[18];		//申请了一块内存, 总大小18*int;
 	p[0] = 0;
 	char* p1 = NULL;
