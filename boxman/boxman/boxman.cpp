@@ -16,10 +16,20 @@ using namespace std;
 #define SCREEN_WIDTH 960
 #define SCREEN_HEIGHT 768
 
+#define LINE 9
+#define COLUMN 12
+
+#define START_X 100
+#define START_Y 150
+
+
+
 IMAGE images[6];
 
+
+
 /*”Œœ∑µÿÕº*/
-int map[9][12] = {
+int map[LINE][COLUMN] = {
 	{0,0,0,0,0,0,0,0,0,0,0,0},
 	{0,1,0,1,1,1,1,1,1,1,0,0},
 	{0,1,4,1,0,2,1,0,2,1,0,0},
@@ -47,13 +57,13 @@ int main(void) {
 	loadimage(&images[4], _T("box.bmp"), RATIO, RATIO, true);
 	loadimage(&images[5], _T("box.bmp"), RATIO, RATIO, true);
 
-	for (int i = 0; i < 9; i++) {
-		for (int j = 0; j < 12; j++) {
-			putimage(100 + j * RATIO, 150 + i * RATIO, &images[map[i][j]]);
+	for (int i = 0; i < LINE; i++) {
+		for (int j = 0; j < COLUMN; j++) {
+			putimage(START_X + j * RATIO, START_Y + i * RATIO, &images[map[i][j]]);
 		}
 		cout << endl;
 	}
-
+	
 	system("pause");
 	return 0;
 }
