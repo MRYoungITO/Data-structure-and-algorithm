@@ -8,7 +8,7 @@
 #define SQUARE(x)	(x)*(x)
 #define MAX(x, y)	x>y?x:y
 
-int main1(void) {
+int main2(void) {
 
 	printf("width: %d\n", _width);	//宏展开相当于		printf("width: %d\n", 1024);
 	printf("我的祖籍: %s\n", ADDR);
