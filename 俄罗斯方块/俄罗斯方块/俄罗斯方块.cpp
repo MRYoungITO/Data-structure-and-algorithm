@@ -22,6 +22,8 @@ int rank = 0;		//等级
 #define KEY_SPACE			32
 
 int speed = 500;
+int minX = 30;
+int minY = 30;
 
 typedef enum block_dir_t {
 	BLOCK_UP,
@@ -276,14 +278,20 @@ void clearBlock(int x, int y) {
 	}
 }
 
+// 清除指定位置指定方向的方块
+// 参数x: 方块的左上角的x坐标
+// 参数y: 方块的左上角在游戏区域内的坐标, 距离游戏区域顶部的距离
 void clearBlock(int x, int y, block_dir_t dir) {
 	settextcolor(BLACK);
 	settextstyle(23, 0, _T("楷体"));
+	int id = BlockIndex * 4 + dir;
+	y += START_Y;
 
-	if (dir == BLOCK_UP || dir == BLOCK_RIGHT || dir == BLOCK_DOWN || dir == BLOCK_LEFT) {
-		for (int i = 0; i < BLOCK_HEIGHT; i++) {
-			for (int j = 0; j < BLOCK_WIDTH; j++) {
-				//"■"
+	for (int i = 0; i < BLOCK_HEIGHT; i++) {
+		for (int j = 0; j < BLOCK_WIDTH; j++) {
+			//"■"
+			if (block[id][i][j]) {
+				//擦除该方块的第i行的第J列
 				outtextxy(x + j * UNIT_SIZE, y + i * UNIT_SIZE, _T("■"));
 			}
 		}
@@ -323,19 +331,42 @@ void nextBlock(void) {
 }
 
 // 如果在指定位置可以向指定方向移动, 就返回1,否则就返回0
-int moveAble(int x, int y, move_dir_t moveDir, block_dir_t blockDir) {
+int moveAble(int x0, int y0, move_dir_t moveDir, block_dir_t blockDir) {
+	// 计算当前方块的左上角在30*15的游戏区中的位置(第多少行, 第多少列)
+	int x = (y0 - minY) / UNIT_SIZE;
+	int y = (x0 - minX) / UNIT_SIZE;
+	int id = BlockIndex * 4 + blockDir;
+	int ret = 1;
 
 	if (moveDir == MOVE_DOWN) {
-		//for(int i=0;i<)
+		for (int i = 0; i < BLOCK_HEIGHT; i++) {
+			for (int j = 0; j < BLOCK_WIDTH; j++) {
+				if (block[id][i][j] && ((x + i +1) >= 30 || visit[x + i + 1][y + j])) {	//(x + i >= 0 && x + i < 30 && y + j >= 0 && y + j < 15 && 
+					ret = 0;
+				}
+			}
+		}
 	}
 	else if (moveDir == MOVE_LEFT) {
-
+		for (int i = 0; i < BLOCK_HEIGHT; i++) {
+			for (int j = 0; j < BLOCK_WIDTH; j++) {
+				if (block[id][i][j] && ((y + j) == 0 || visit[x + i][y + j - 1])) {
+					ret = 0;
+				}
+			}
+		}
 	}
 	else if (moveDir == MOVE_RIGHT) {
-
+		for (int i = 0; i < BLOCK_HEIGHT; i++) {
+			for (int j = 0; j < BLOCK_WIDTH; j++) {
+				if (block[id][i][j] && ((y + j + 1) >= 15 || visit[x + i][y + j + 1])) {
+					ret = 0;
+				}
+			}
+		}
 	}
 
-	return 1;
+	return ret;
 }
 
 //检测游戏是否结束
@@ -355,9 +386,30 @@ void wait(int interval) {
 
 }
 
+// 判断当前方块是否可以转向到指定方向
+// 注意, 此时还没有转到该方向! ! !
+int rotatable(int x, int y, block_dir_t dir) {
+	int id = BlockIndex * 4 + dir;
+
+	if (!moveAble(x, y, MOVE_DOWN, dir)) {
+		return 0;
+	}
+
+	for (int i = 0; i < BLOCK_HEIGHT; i++) {
+		for (int j = 0; j < BLOCK_WIDTH; j++) {
+			if (block[id][i][j] && (y + j < 0 || y + j >= 15 || visit[x + i][y + j])) {
+				return 0;
+			}
+		}
+	}
+
+	return 1;
+}
+
 void move() {
 	int x = START_X;
 	int y = START_Y;
+	int k = 0;
 	block_dir_t blockDir = BLOCK_UP;
 	int curSpeed = speed;
 
@@ -375,12 +427,15 @@ void move() {
 	}
 		
 	//清除当前方块
-	clearBlock(x, y, blockDir);
+	clearBlock(x, k, blockDir);
 
 	if (_kbhit()) {
 		int key = _getch();
 		if (key == KEY_UP) {
-
+			block_dir_t nextDir = (block_dir_t)((blockDir + 1) % 4);
+			if (rotatable(x, y + k, nextDir)) {
+				blockDir = nextDir;
+			}
 		}
 		else if (key == KEY_DOWN) {
 			/*for (int i = 0; i < BLOCK_HEIGHT; i++) {
@@ -428,7 +483,7 @@ void newBlock() {
 	//方块降落
 	move();
 }
-
+ 
 int main(void) {
 	welcome();
 	initGameScene();
