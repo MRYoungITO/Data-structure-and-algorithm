@@ -46,6 +46,7 @@ int color[BLOCK_COUNT] = {
 };
 
 int visit[30][15];		//访问数组
+int markColor[30][15];	//表示对应位置的颜色
 
 int block[BLOCK_COUNT * 4][BLOCK_HEIGHT][BLOCK_WIDTH] = {
 	// "|" 形方块
@@ -282,14 +283,12 @@ void clearBlock(int x, int y) {
 // 参数x: 方块的左上角的x坐标
 // 参数y: 方块的左上角在游戏区域内的坐标, 距离游戏区域顶部的距离
 void clearBlock(int x, int y, block_dir_t dir) {
-	settextcolor(BLACK);
-	settextstyle(23, 0, _T("楷体"));
+	setcolor(BLACK);
 	int id = BlockIndex * 4 + dir;
 	y += START_Y;
 
 	for (int i = 0; i < BLOCK_HEIGHT; i++) {
 		for (int j = 0; j < BLOCK_WIDTH; j++) {
-			//"■"
 			if (block[id][i][j]) {
 				//擦除该方块的第i行的第J列
 				outtextxy(x + j * UNIT_SIZE, y + i * UNIT_SIZE, _T("■"));
@@ -299,7 +298,7 @@ void clearBlock(int x, int y, block_dir_t dir) {
 }
 
 // 在右上角区域中, 绘制下一个方块
-void drawBlock(int x, int y,int next) {
+void drawBlock(int x, int y) {
 	settextcolor(color[NextIndex]);
 	settextstyle(23, 0, _T("楷体"));
 
@@ -313,8 +312,21 @@ void drawBlock(int x, int y,int next) {
 	}
 }
 
+// 绘制方块: 在指定位置绘制指定方块的指定方向
 void drawBlock(int x, int y, int blockIndex,block_dir_t dir) {
+	settextcolor(color[BlockIndex]);
+	settextstyle(23, 0, _T("楷体"));
 
+	int id = blockIndex * 4 + dir;
+
+	for (int i = 0; i < BLOCK_HEIGHT; i++) {
+		for (int j = 0; j < BLOCK_WIDTH; j++) {
+			if (block[id][i][j]) {
+				//"■"
+				outtextxy(x + j * UNIT_SIZE, y + i * UNIT_SIZE, _T("■"));
+			}
+		}
+	}
 }
 
 void nextBlock(void) {
@@ -322,11 +334,12 @@ void nextBlock(void) {
 	int y = 71;
 
 	clearBlock(x, y);			// 在右侧的提示区清除原来的方块
-	
+
 	// 随机选择一种方块
 	srand(time(NULL));		//使用时间函数的返回值, 来作为随机种子
 	NextIndex = rand() % BLOCK_COUNT;
-	drawBlock(x, y, NextIndex);
+
+	drawBlock(x, y);
 
 }
 
@@ -341,7 +354,7 @@ int moveAble(int x0, int y0, move_dir_t moveDir, block_dir_t blockDir) {
 	if (moveDir == MOVE_DOWN) {
 		for (int i = 0; i < BLOCK_HEIGHT; i++) {
 			for (int j = 0; j < BLOCK_WIDTH; j++) {
-				if (block[id][i][j] && ((x + i +1) >= 30 || visit[x + i + 1][y + j])) {	//(x + i >= 0 && x + i < 30 && y + j >= 0 && y + j < 15 && 
+				if (block[id][i][j] && ((x + i + 1) >= 30 || visit[x + i + 1][y + j])) {	//(x + i >= 0 && x + i < 30 && y + j >= 0 && y + j < 15 && 
 					ret = 0;
 				}
 			}
@@ -382,14 +395,22 @@ void failCheck() {
 	}
 }
 
-void wait(int interval) {
-
+void wait(int interval) {		//500
+	int count = interval / 10;
+	for (int i = 0; i < count; i++) {
+		Sleep(10);
+		if (_kbhit()) {
+			return;
+		}
+	}
 }
 
 // 判断当前方块是否可以转向到指定方向
 // 注意, 此时还没有转到该方向! ! !
 int rotatable(int x, int y, block_dir_t dir) {
 	int id = BlockIndex * 4 + dir;
+	int xIndex = (y - minY) / UNIT_SIZE;
+	int yIndex = (x - minX) / UNIT_SIZE;
 
 	if (!moveAble(x, y, MOVE_DOWN, dir)) {
 		return 0;
@@ -397,7 +418,7 @@ int rotatable(int x, int y, block_dir_t dir) {
 
 	for (int i = 0; i < BLOCK_HEIGHT; i++) {
 		for (int j = 0; j < BLOCK_WIDTH; j++) {
-			if (block[id][i][j] && (y + j < 0 || y + j >= 15 || visit[x + i][y + j])) {
+			if (block[id][i][j] && (yIndex + j < 0 || yIndex + j >= 15 || visit[xIndex + i][yIndex + j])) {
 				return 0;
 			}
 		}
@@ -406,7 +427,21 @@ int rotatable(int x, int y, block_dir_t dir) {
 	return 1;
 }
 
-void move() {
+void mark(int x, int y, int blocklndex, block_dir_t dir) {
+	int id = blocklndex * 4 + dir;
+	int x2 = (y - minY) / UNIT_SIZE;
+	int y2 = (x - minX) / UNIT_SIZE;
+	for (int i = 0; i < BLOCK_HEIGHT; i++) {
+		for (int j = 0; j < BLOCK_WIDTH; j++) {
+			if (block[id][i][j]) {
+				visit[x2 + i][y2 + j] = 1;
+				markColor[x2 + i][y2 + j] = color[blocklndex];
+			}
+		}
+	}
+}
+
+void move(void) {
 	int x = START_X;
 	int y = START_Y;
 	int k = 0;
@@ -424,47 +459,45 @@ void move() {
 				_getch();
 			}
 		}
-	}
 		
-	//清除当前方块
-	clearBlock(x, k, blockDir);
+		//清除当前方块
+		clearBlock(x, k, blockDir);
+		
+		if (_kbhit()) {
+			int key = _getch();
 
-	if (_kbhit()) {
-		int key = _getch();
-		if (key == KEY_UP) {
-			block_dir_t nextDir = (block_dir_t)((blockDir + 1) % 4);
-			if (rotatable(x, y + k, nextDir)) {
-				blockDir = nextDir;
+			if (key == KEY_UP) {
+				block_dir_t nextDir = (block_dir_t)((blockDir + 1) % 4);
+				if (rotatable(x, y + k, nextDir)) {
+					blockDir = nextDir;
+				}
 			}
-		}
-		else if (key == KEY_DOWN) {
-			/*for (int i = 0; i < BLOCK_HEIGHT; i++) {
-				for (int j = 0; j < BLOCK_WIDTH; j++) {
-					visit[i - 1][j] = block[BlockIndex * 4][i][j];
+			else if (key == KEY_DOWN) {
+				curSpeed = 50;
+			}
+			else if (key == KEY_LEFT) {
+				if (moveAble(x, y + k + 20, MOVE_LEFT, blockDir)) {
+					x -= UNIT_SIZE;
+				}
+			}
+			else if (key == KEY_RIGHT) {
+				if (moveAble(x, y + k + 20, MOVE_RIGHT, blockDir)) {
+					x += UNIT_SIZE;		//x = x + 20;
 				}
 			}
 		}
-		else if (key == KEY_LEFT) {
-			for (int i = 0; i < BLOCK_HEIGHT; i++) {
-				for (int j = 0; j < BLOCK_WIDTH; j++) {
-					visit[i][j - 1] = block[BlockIndex * 4][i][j];
-				}
-			}
-		}
-		else if (key == KEY_RIGHT) {
-			for (int i = 0; i < BLOCK_HEIGHT; i++) {
-				for (int j = 0; j < BLOCK_WIDTH; j++) {
-					visit[i][j + 1] = block[BlockIndex * 4][i][j];
-				}
-			}*/
-		}
 
-	// 绘制当前方块
-	//drawBlock()
-	wait(curSpeed);
+		k += 20;
+		// 绘制当前方块
+		drawBlock(x, y + k, BlockIndex, blockDir);
 
-	// 方块的 "固化" 处理
-	//to do.
+		wait(curSpeed);
+			
+		// 方块的 "固化" 处理
+		if (!moveAble(x, y + k, MOVE_DOWN, blockDir)) {
+			mark(x, y+k, BlockIndex, blockDir);
+			break;
+		}
 	}
 }
 
@@ -473,7 +506,7 @@ void newBlock() {
 	BlockIndex = NextIndex;
 
 	// 绘制刚从顶部下降的方块
-	drawBlock(START_X, START_Y,BlockIndex);
+	drawBlock(START_X, START_Y);
 
 	//让新出现的方块暂停一会,让用户识别到
 	Sleep(100);	//0.1秒
@@ -482,6 +515,50 @@ void newBlock() {
 
 	//方块降落
 	move();
+}
+
+//消除第x行, 并把上面的行都下移
+void down(int x) {
+	for (int i = x; i >= 0; i--) {
+		// 消除第i行, 第j列的方格消除
+		for (int j = 0; j < 15; j++) {
+			if (visit[i - 1][j]) {
+				visit[i][j] = 1;
+				markColor[i][j] = markColor[i - 1][j];
+				setcolor(markColor[i][j]);
+				outtextxy(minX + j * UNIT_SIZE, minY + i * UNIT_SIZE, _T("■"));
+			}
+			else {
+				visit[i][j] = 0;
+				setcolor(BLACK);
+				outtextxy(minX + j * UNIT_SIZE, minY + i * UNIT_SIZE, _T("■"));
+			}
+		}
+	}
+
+	//清除最顶上的一行(就是航标为0的哪一行)
+	setcolor(BLACK);
+	for (int j = 0; j < 15; j++) {
+		visit[0][j] = 0;
+		outtextxy(minX + j * UNIT_SIZE, minY, _T("■"));
+	}
+}
+
+void check(void) {
+	int i, j;
+
+	for (i = 29; i >= 0; i--) {
+		// 检查第i行有没有满
+		for (j = 0; j < 15 && visit[i][j]; j++);
+			// 执行到此处时, 有两种情况:
+			// 1. 第i行没有满, 即表示有空位 此时j<15
+			// 2. 第i行已经满了, j>=15
+		if (j >= 15) {
+			// 此时, 第i行已经满了, 就需要消除第i行
+			down(i);	//消除第i行, 并把上面的行都下移
+			i++;	//因为最外层的循环中有i--, 所以我们先i++,使得下次循环时,再把这一行检查一下
+		}
+	}
 }
  
 int main(void) {
@@ -497,6 +574,9 @@ int main(void) {
 
 	while (1) {
 		newBlock();
+
+		// 消除满行, 并更新分数和速度
+		check();
 	}
 
 	system("pause");
