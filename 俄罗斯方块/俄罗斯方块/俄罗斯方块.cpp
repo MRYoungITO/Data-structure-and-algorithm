@@ -519,7 +519,7 @@ void newBlock() {
 
 //消除第x行, 并把上面的行都下移
 void down(int x) {
-	for (int i = x; i >= 0; i--) {
+	for (int i = x; i > 0; i--) {
 		// 消除第i行, 第j列的方格消除
 		for (int j = 0; j < 15; j++) {
 			if (visit[i - 1][j]) {
@@ -544,8 +544,35 @@ void down(int x) {
 	}
 }
 
+// 更新份数, 参数lines表示消除的行数
+void addScore(int lines) {
+	char str[32];
+	setcolor(RED);
+	score += lines * 10;
+	sprintf_s(str, "%d", score);
+	outtextxy(415, 310, str);
+}
+
+void updateGrade() {
+	// 更新等级的提示
+	// 假设: 50分一级
+	rank = score / 50;
+	char str[16];
+	setcolor(RED);
+	sprintf_s(str, "%d", rank);
+	outtextxy(425, 405, str);
+
+	// 更新速度, 等级越高, 速度越快, speed越小
+	// 最慢500, 最快: 100
+	speed = 500 - rank * 100;
+	if (speed <= 0) {
+		speed = 100;
+	}
+}
+
 void check(void) {
 	int i, j;
+	int clearLines = 0;
 
 	for (i = 29; i >= 0; i--) {
 		// 检查第i行有没有满
@@ -557,8 +584,14 @@ void check(void) {
 			// 此时, 第i行已经满了, 就需要消除第i行
 			down(i);	//消除第i行, 并把上面的行都下移
 			i++;	//因为最外层的循环中有i--, 所以我们先i++,使得下次循环时,再把这一行检查一下
+			clearLines++;
 		}
 	}
+
+	// 更新功能
+	addScore(clearLines);
+	// 更新等级(更新等级提示, 更新速度)
+	updateGrade();
 }
  
 int main(void) {
