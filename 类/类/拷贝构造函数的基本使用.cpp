@@ -1,14 +1,17 @@
 #include <iostream>
 #include <Windows.h>
 #include <string>
+#include <string.h>
 
 using namespace std;
 
+#define ADDR_LEN 32
+
+//定义一个"人类"
 class Human {
 public:
 	Human();
 	Human(int age, int salary, string name);
-
 	Human(const Human&copy);
 
 	void eat();
@@ -20,11 +23,13 @@ public:
 	string getName();
 	int getAge();
 	int getSalary();
+	void setAddr(const char* addr);
 
 private:
 	string name;
 	int age;
 	int salary;
+	char* addr;		//地址
 };
 
 void Human::eat() {
@@ -56,41 +61,63 @@ int Human::getSalary() {
 }
 
 Human::Human() {
-	string name;
-	int age;
-	int salary;
-}
-
-// Human h2 = h1;
-Human::Human(const Human& copy) {	//const Human &copy = h1;
-	cout << "调用拷贝构造函数" << endl;
-	
-	name = copy.name;
-	age = copy.age;
-	salary = copy.salary;
+	name = "无名";
+	age = 18;
+	salary = 20000;
 }
 
 Human::Human(int age, int salary, string name) {
 	cout << "调用自定义的构造函数" << endl;
 	this->age = age;	//this是一个特殊的指针, 指向这个对象本身
 	this->salary = salary;
-	this->name = "无名";
+	this->name = name;;
+
+	addr = new char[ADDR_LEN];
+	strcpy_s(addr, ADDR_LEN, "China");
+}
+
+// Human h2 = h1;
+Human::Human(const Human& copy) {	//const Human &copy = h1;
+	cout << "调用拷贝构造函数" << endl;
+	name = copy.name;
+	age = copy.age;
+	salary = copy.salary;
+
+	//深度拷贝
+	addr = new char[ADDR_LEN];
+	strcpy_s(this->addr, ADDR_LEN, copy.addr);
+}
+
+void Human::setAddr(const char* newAddr) {
+	if (!newAddr) {
+		return;
+	}
+	strcpy_s(addr, ADDR_LEN, newAddr);
 }
 
 void Human::description() {
-	cout << "age:" << age 
-		<< " name:" << name 
-		<< " salary:" << salary << endl;
+	cout << "age:" << age
+		<< " name:" << name
+		<< " salary:" << salary
+		<< " addr:" << addr << endl;
 }
 
 int main(void) {
-	Human h1(28,35000,"young");	//使用自定义的构造函数
+	Human h1(28, 35000, "young");	//使用自定义的构造函数
 	Human h2 = h1;	//调用拷贝构造函数
 	Human h3(h1);		//调用拷贝构造函数
 
 	h1.description();
 	h2.description();
 	h3.description();
+
+	h1.setAddr("美国");
+
+	cout << "h1修改地址之后" << endl;
+	h1.description();
+	h2.description();
+	h3.description();
+
 
 	/*
 	h1.eat();
