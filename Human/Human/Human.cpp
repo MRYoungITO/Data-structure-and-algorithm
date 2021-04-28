@@ -1,29 +1,7 @@
+#include "Human.h"
 #include <iostream>
-#include <string>
-#include <Windows.h>
 
-using namespace std;
-
-#define ADDR_LENS 64
-
-class Human {
-public:
-	Human();
-	Human(string name, int age, int salary);
-	Human(const Human& copy);
-	Human& operator=(const Human& assignment);
-	~Human();
-	void descripiton();
-	void setAddr(const char* newAddr);
-	Human& compare(Human& comparison);
-	Human* compare2(Human* comparison);
-
-private:
-	string name;
-	int age;
-	int salary;
-	char* addr;
-};
+int Human::humanCount = 0;
 
 Human::Human() {
 	name = "Young";
@@ -31,6 +9,7 @@ Human::Human() {
 	salary = 30000;
 	addr = new char[ADDR_LENS];
 	strcpy_s(addr, ADDR_LENS, "中国");
+	humanCount++;
 }
 
 Human::Human(string name, int age, int salary) {
@@ -39,6 +18,7 @@ Human::Human(string name, int age, int salary) {
 	this->salary = salary;
 	addr = new char[ADDR_LENS];
 	strcpy_s(this->addr, ADDR_LENS, "中国");
+	humanCount++;
 }
 
 Human::Human(const Human& copy) {
@@ -47,6 +27,7 @@ Human::Human(const Human& copy) {
 	salary = copy.salary;
 	addr = new char[ADDR_LENS];
 	strcpy_s(addr, ADDR_LENS, copy.addr);
+	humanCount++;
 }
 
 Human& Human::operator=(const Human& assignment) {
@@ -93,34 +74,6 @@ Human* Human::compare2(Human* comparison) {
 	}
 }
 
-int main(void) {
-	Human h1("Young", 28, 28000), h4;
-	Human h2 = h1;
-	Human h3(h1);
-	h4 = h1;
-	h1.descripiton();
-	h2.descripiton();
-	h3.descripiton();
-	h4.descripiton();
-
-	cout << "-----------------------------------------" << endl;
-
-	h1.setAddr("美国");
-	h2.setAddr("日本");
-	h3.setAddr("新加坡");
-	h1.descripiton();
-	h2.descripiton();
-	h3.descripiton();
-	h4.descripiton();
-
-	Human h5("Young", 28, 28000);
-	Human h6("LaoYang", 30, 30000);
-	
-	h5.compare(h6).descripiton();
-	
-	Human* p = &h1;
-	p->compare2(&h2)->descripiton();
-
-	system("pause");
-	return 0;
+int Human::getHumanCount() {
+	return humanCount;
 }
