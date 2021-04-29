@@ -3,7 +3,8 @@
 
 int Human::humanCount = 0;
 
-Human::Human() {
+// 初始化列表
+Human::Human() : bloodType("未知") {
 	name = "Young";
 	age = 28;
 	salary = 30000;
@@ -12,7 +13,7 @@ Human::Human() {
 	humanCount++;
 }
 
-Human::Human(string name, int age, int salary) {
+Human::Human(string name, int age, int salary, string bldType) : bloodType(bldType) {
 	this->name = name;
 	this->age = age;
 	this->salary = salary;
@@ -40,11 +41,12 @@ Human& Human::operator=(const Human& assignment) {
 	return *this;		// 返回这个对象本身
 }
 
-void Human::descripiton() {
+void Human::description() const {
 	cout << "name:" << name
 		<< " age:" << age
 		<< " salary:" << salary
-		<< " addr:" << addr << endl;
+		<< " addr:" << addr
+		<< " bloodType: " << bloodType << endl;
 }
 
 void Human::setAddr(const char* newAddr) {
