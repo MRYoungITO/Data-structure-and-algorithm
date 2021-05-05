@@ -1,4 +1,5 @@
 #include "Girl.h"
+#include "Boy.h"
 #include <sstream>		//stringstream
 
 // ÑÕÖµÏµÊý
@@ -33,7 +34,12 @@ int Girl::getYanZhi() const {
 }
 
 bool Girl::satisfied(const Boy& boy) {
-	// to do
+	if (boy.getSalary() >= yanZhi * YANZHI_FACTOR) {
+		return true;
+	}
+	else {
+		return false;
+	}
 	return false;
 }
 
