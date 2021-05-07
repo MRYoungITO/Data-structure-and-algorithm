@@ -18,6 +18,7 @@ public:
 	string description() const;
 
 	bool satisfied(const Girl& girl);
+
 private:
 	int age;
 	string name;
