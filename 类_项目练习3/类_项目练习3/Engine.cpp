@@ -1,11 +1,8 @@
 #include <sstream>
+#include <iostream>
 #include "Engine.h"
 
-
-Engine::Engine()
-{
-
-}
+using namespace std;
 
 Engine::Engine(const string& brand, float verison)
 {
@@ -15,7 +12,7 @@ Engine::Engine(const string& brand, float verison)
 
 Engine::~Engine()
 {
-
+	cout << __FUNCTION__ << endl;
 }
 
 string Engine::description() const

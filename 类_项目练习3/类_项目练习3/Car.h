@@ -12,7 +12,7 @@ public:
 	~Car();
 
 	Engine getEngine() const;
-	Tire* getTires(int i);
+	const Tire* getTires(int i) const;
 	string getBrand() const;
 	string getVerison() const;
 	int getPrice() const;

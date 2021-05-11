@@ -1,5 +1,8 @@
 #include <sstream>
+#include <iostream>
 #include "Tire.h"
+
+using namespace std;
 
 Tire::Tire(const string& brand)
 {
@@ -9,7 +12,7 @@ Tire::Tire(const string& brand)
 
 Tire::~Tire()
 {
-
+	cout << __FUNCTION__ << endl;
 }
 
 string Tire::getBrand() const

@@ -6,7 +6,6 @@ using namespace std;
 class Engine
 {
 public:
-	Engine();
 	Engine(const string& brand, float verison);  //const string& brand, 这样定义不会改变参数所带入的值
 	~Engine();
 
