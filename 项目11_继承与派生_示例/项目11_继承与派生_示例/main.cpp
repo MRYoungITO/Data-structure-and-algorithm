@@ -10,6 +10,9 @@ int main(void) {
 	cout << wjl.description() << endl;
 	cout << wsc.description() << endl;
 
+	cout << sizeof(wjl) << endl;
+	cout << sizeof(wsc) << endl;
+
 	system("pause");
 	return 0;
 }
