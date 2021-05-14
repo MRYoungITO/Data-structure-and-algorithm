@@ -8,6 +8,7 @@ public:
 	~Father();
 
 	void playBasketball() const;  //´òÀºÇò
+	void dance() const;
 protected:
 	string lastName;  //ĞÕ
 	string firstName;  //Ãû×Ö

@@ -17,3 +17,8 @@ void Father::playBasketball() const
 {
 	cout << "呦呦, 我要三步上篮了!" << endl;
 }
+
+void Father::dance() const
+{
+	cout << "一起跳locking舞吧, 一二三四, 二二三四..." << endl;
+}

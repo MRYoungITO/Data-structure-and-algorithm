@@ -16,5 +16,5 @@ Mother::~Mother()
 
 void Mother::dance()
 {
-	cout << "一起跳舞吧, 一二三四, 二二三四..." << endl;
+	cout << "一起跳poping舞吧, 一二三四, 二二三四..." << endl;
 }

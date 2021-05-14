@@ -19,3 +19,10 @@ void Son::playGame()
 {
 	cout << "Ò»ÆðÍæ" << game << "°É..." << endl;
 }
+
+void Son::dance()
+{
+	Father::dance();
+	Mother::dance();
+	cout << "»ô»ô, ÎÒÃÇÀ´ÌøÌßÌ¤Îè°É! " << endl;
+}

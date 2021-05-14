@@ -8,6 +8,7 @@ public:
 	~Son();
 
 	void playGame();
+	void dance();
 private:
 	string game;
 };
