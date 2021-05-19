@@ -11,6 +11,7 @@ int main(void) {
 
 	book2.setDiscount(5);
 	cout << "Price:" << book2.getPrice() << " ISBN:" << book2.getISBN() << endl;
+
 	cout << "Discount:" << book2.getDiscount() << endl;
 
 	system("pause");
