@@ -17,6 +17,7 @@ int main(void) {
 		return 1;
 	}
 
+
 	while (1) {
 		getline(infile, line);
 		if (infile.eof()) {
