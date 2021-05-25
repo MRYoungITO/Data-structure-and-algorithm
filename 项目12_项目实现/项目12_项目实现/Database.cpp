@@ -50,6 +50,11 @@ void Database::print()
 	}
 }
 
+void Database::addOne(Boy& boy)
+{
+
+}
+
 void Database::initBoysFromFile()
 {
 	// 打开文件  读文件内容  初始化boys
@@ -147,7 +152,7 @@ void Database::saveBoys()
 		exit(1);
 	}
 	for (int i = 0; i < boys.size(); i++) {
-		stream << boys[i].description();
+		stream << boys[i].description() << endl;
 	}
 	stream.close();
 }
@@ -162,7 +167,7 @@ void Database::saveGirls()
 		exit(1);
 	}
 	for (int i = 0; i < girls.size(); i++) {
-		stream << girls[i].description();
+		stream << girls[i].description() << endl;
 	}
 	stream.close();
 }

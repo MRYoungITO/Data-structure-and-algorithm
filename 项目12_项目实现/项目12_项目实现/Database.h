@@ -28,6 +28,9 @@ public:
 
 	// 打印该数据库中的所有用户信息
 	void print();
+
+	void addOne(Boy& boy);
+	void addOne(Girl& girl);
 private:
 	// 所有的单身男信息
 	vector<Boy> boys;
