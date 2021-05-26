@@ -52,7 +52,38 @@ void Database::print()
 
 void Database::addOne(Boy& boy)
 {
+	boys.push_back(boy);
 
+	cout << endl << "自动配对结果: " << endl;
+	string line(100, '-');
+	cout << line << endl;
+
+	for (int j = 0; j < girls.size(); j++) {
+		if (boy.satisfied(girls[j]) &&
+			girls[j].satisfied(boy)) {
+			cout << boy.description() << endl;
+			cout << girls[j].description() << endl;
+			cout << line << endl;
+		}
+	}
+}
+
+void Database::addOne(Girl& girl)
+{
+	girls.push_back(girl);
+
+	cout << endl << "自动配对结果: " << endl;
+	string line(100, '-');
+	cout << line << endl;
+
+	for (int j = 0; j < boys.size(); j++) {
+		if (girl.satisfied(boys[j]) &&
+			boys[j].satisfied(girl)) {
+			cout << girl.description() << endl;
+			cout << boys[j].description() << endl;
+			cout << line << endl;
+		}
+	}
 }
 
 void Database::initBoysFromFile()

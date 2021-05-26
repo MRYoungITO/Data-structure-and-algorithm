@@ -80,3 +80,21 @@ void Boy::inputBoys(vector<Boy>& boys) {
 		boys.push_back(Boy(age, name, salary));
 	}
 }
+
+void Boy::inputBoy(Boy& boy)
+{
+	int age;
+	string name;
+	int salary;
+
+	cout << "请输入小哥哥的年龄：";
+	cin >> age;
+
+	cout << "请输入小哥哥的姓名：";
+	cin >> name;
+
+	cout << "请输入小哥哥的薪资：";
+	cin >> salary;
+
+	boy = Boy(age, name, salary);
+}

@@ -19,6 +19,7 @@ public:
 	bool satisfied(const Boy& s) const;
 	string description()const;
 	static void inputGirls(vector<Girl>& girls);
+	static void inputGirl(Girl& girl);
 
 private:
 	//int age;

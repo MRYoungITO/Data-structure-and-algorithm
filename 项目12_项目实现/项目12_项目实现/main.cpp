@@ -24,10 +24,15 @@ int main(void) {
 	Database data;
 
 	data.init();
-	data.print();
-	data.autoPair();
 
+	Boy boy;
+	Boy::inputBoy(boy);  //  ‰»Îboy–≈œ¢
+	data.addOne(boy);
 
+	Girl girl;
+	Girl::inputGirl(girl);
+	data.addOne(girl);
+		
 	system("pause");
 	return 0;
 }

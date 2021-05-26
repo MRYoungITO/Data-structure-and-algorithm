@@ -4,7 +4,6 @@
 #include "Girl.h"
 #include "Boy.h"
 
-
 #define YANZHI_FACTOR 100
 
 Girl::Girl() {
@@ -75,4 +74,22 @@ void Girl::inputGirls(vector<Girl>& girls) {
 		n++;
 		girls.push_back(Girl(age, name, yanZhi));
 	}
+}
+
+void Girl::inputGirl(Girl& girl)
+{
+	int age;
+	string name;
+	int yanZhi;
+
+	cout << "请输入小姐姐的年龄：";
+	cin >> age;
+
+	cout << "请输入小姐姐的姓名：";
+	cin >> name;
+
+	cout << "请输入小姐姐的颜值：";
+	cin >> yanZhi;
+
+	girl = Girl(age, name, yanZhi);
 }
