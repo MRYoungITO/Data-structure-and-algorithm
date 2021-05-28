@@ -15,6 +15,9 @@ int main(void) {
 
 	//upgrade(&computer);
 	service.upgrade(&computer);
+	service.clean(&computer);
+	service.kill(&computer);
+
 	cout << computer.description() << endl;
 
 	system("pause");
