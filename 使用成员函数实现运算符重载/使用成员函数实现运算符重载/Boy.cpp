@@ -45,3 +45,42 @@ Boy& Boy::operator=(const Boy& boy)
 	//  this->id = boy.id;  // 根据需求来确定是否要拷贝id
 	return *this;
 }
+
+bool Boy::operator>(const Boy& boy)
+{
+	// 设置一个比较规则
+	// 薪资 * 黑马系数 + (100-年龄) * 1000
+	if (this->power() > boy.power()) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool Boy::operator<(const Boy& boy)
+{
+	if (this->power() < boy.power()) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool Boy::operator==(const Boy& boy)
+{
+	if (this->power() == boy.power()) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+int Boy::power() const
+{
+	// 薪资 * 黑马系数 + (100-年龄) * 1000
+	int ret = salary * darkHouse + (100 - age) * 1000;
+	return ret;
+}

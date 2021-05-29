@@ -7,6 +7,25 @@
 using namespace std;
 
 int main(void) {
+	Boy boy1("Rock", 38, 58000, 5);
+	Boy boy2("Jack", 25, 50000, 10);
+
+	if (boy1 > boy2) {  //boy1.operator>(boy2)
+		cout << "选择boy1" << endl;
+	}
+	else if (boy1 == boy2) {
+		cout << "难以选择, 差不多" << endl;
+	}
+	else {  //boy1 < boy2
+		cout << "选择boy2" << endl;
+	}
+
+	system("pause");
+	return 0;
+}
+
+/*
+int main(void) {
 	Boy boy1("Rock", 38, 58000, 10);
 	Boy boy2, boy3;
 	cout << boy1.description() << endl;
@@ -21,7 +40,7 @@ int main(void) {
 
 	system("pause");
 	return 0;
-}
+}*/
 
 /*
 Pork operator+(const Cow& cow1, const Cow& cow2) {

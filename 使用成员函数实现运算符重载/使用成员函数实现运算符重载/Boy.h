@@ -12,6 +12,10 @@ public:
 	
 	// 重载赋值运算符
 	Boy& operator=(const Boy& boy);  //函数返回类型是 & 类型, 参数中加const保护实际参数不会被修改
+
+	bool operator>(const Boy& boy);
+	bool operator<(const Boy& boy);
+	bool operator==(const Boy& boy);
 private:
 	char* name;
 	int age;
@@ -19,5 +23,7 @@ private:
 	int darkHouse;  // 黑马值, 表示潜力系数
 	unsigned int id;  //编号
 	static int LAST_ID;
+
+	int power() const;  // 综合能力值
 };
 
