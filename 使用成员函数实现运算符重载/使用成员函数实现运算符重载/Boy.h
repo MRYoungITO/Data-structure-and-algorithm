@@ -1,6 +1,22 @@
 #pragma once
 #include <string>
+#include <iostream>
+
+#define AGE_KEY "age"
+#define SALARY_KEY "salary"
+#define DARK_HORSE_KEY "darkHorse"
+#define POWER_KEY "power"
+
+// 枚举类型表示
+typedef enum {
+	AGE,
+	SALARY,
+	DARK_HORSE,
+	POWER
+}BOY_KEY_TYPE;
+
 using namespace std;
+
 class Boy
 {
 public:
@@ -16,6 +32,15 @@ public:
 	bool operator>(const Boy& boy);
 	bool operator<(const Boy& boy);
 	bool operator==(const Boy& boy);
+
+	// 实现下标运算符的重载
+	int operator[](string index);
+	int operator[](int index);
+
+	//ostream& operator<<(ostream& os) const;
+	friend ostream& operator<<(ostream& os, const Boy& boy);
+	friend istream& operator>>(istream& is, Boy& boy);
+
 private:
 	char* name;
 	int age;

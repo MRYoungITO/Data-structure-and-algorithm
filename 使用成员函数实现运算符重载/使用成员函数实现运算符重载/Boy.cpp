@@ -78,6 +78,52 @@ bool Boy::operator==(const Boy& boy)
 	}
 }
 
+int Boy::operator[](string index)
+{
+	if (index == AGE_KEY) {
+		return age;
+	}
+	else if (index == SALARY_KEY) {
+		return salary;
+	}
+	else if (index == DARK_HORSE_KEY) {
+		return darkHouse;
+	}
+	else if (index == POWER_KEY) {
+		return power();
+	}
+	else {
+		return -1;
+	}
+}
+
+int Boy::operator[](int index)
+{
+	if (index == AGE) {
+		return age;
+	}
+	else if (index == SALARY) {
+		return salary;
+	}
+	else if (index == DARK_HORSE) {
+		return darkHouse;
+	}
+	else if (index == POWER) {
+		return power();
+	}
+	else {
+		return -1;
+	}
+}
+
+// 该方式不适合
+//ostream& Boy::operator<<(ostream& os) const
+//{
+//	os << "ID:" << id << "\t姓名:" << name << "\t年龄:" << age
+//		 << "\t薪资:" << salary << "\t黑马系数:" << darkHouse;
+//	return os;
+//}
+
 int Boy::power() const
 {
 	// 薪资 * 黑马系数 + (100-年龄) * 1000
