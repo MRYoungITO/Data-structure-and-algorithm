@@ -4,6 +4,7 @@
 //#include "Goat.h"
 //#include "Pork.h"
 #include "Boy.h"
+#include "Man.h"
 using namespace std;
 
 ostream& operator<<(ostream& os, const Boy& boy) {
@@ -21,13 +22,14 @@ istream& operator>>(istream& is, Boy& boy) {
 }
 
 int main(void) {
-	Boy boy1("Rock", 28, 10000, 5);
-	int power = boy1;
-	char* name = boy1;
+	Boy boy("Rock", 28, 10000, 5);
+	Man man = boy;
+	//int power = boy1;
+	//char* name = boy1;
 
-	cout << boy1 << endl;
-	cout << power << endl;
-	cout << name << endl;
+	//cout << boy1 << endl;
+	//cout << power << endl;
+	//cout << name << endl;
 	//Boy boy1 = 10000;
 	//Boy boy2 = "Rock";
 
