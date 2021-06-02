@@ -43,8 +43,8 @@ public:
 	operator char* () const;
 
 	// 实现下标运算符的重载
-	int operator[](string index);
-	int operator[](int index);
+	int operator[](string index) const;
+	int operator[](int index) const;
 
 	//ostream& operator<<(ostream& os) const;
 	friend ostream& operator<<(ostream& os, const Boy& boy);
@@ -61,3 +61,5 @@ private:
 	int power() const;  // 综合能力值
 };
 
+ostream& operator<<(ostream& os, const Boy& boy);
+istream& operator>>(istream& is, Boy& boy);

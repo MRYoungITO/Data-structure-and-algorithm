@@ -111,7 +111,7 @@ Boy::operator char* () const
 	return this->name;
 }
 
-int Boy::operator[](string index)
+int Boy::operator[](string index) const
 {
 	if (index == AGE_KEY) {
 		return age;
@@ -130,7 +130,7 @@ int Boy::operator[](string index)
 	}
 }
 
-int Boy::operator[](int index)
+int Boy::operator[](int index) const
 {
 	if (index == AGE) {
 		return age;
@@ -162,4 +162,20 @@ int Boy::power() const
 	// 薪资 * 黑马系数 + (100-年龄) * 1000
 	int ret = salary * darkHouse + (100 - age) * 1000;
 	return ret;
+}
+
+ostream& operator<<(ostream& os, const Boy& boy) 
+{
+	os << "ID:" << boy.id << "\t姓名:" << boy.name << "\t年龄:" << boy.age
+		<< "\t薪资:" << boy.salary << "\t黑马系数:" << boy.darkHouse;
+	return os;
+}
+
+istream& operator>>(istream& is, Boy& boy) 
+{
+	string name2;
+	is >> name2 >> boy.age >> boy.salary >> boy.darkHouse;
+	boy.name = (char*)malloc((name2.length() + 1) * sizeof(char));
+	strcpy_s(boy.name, name2.length() + 1, name2.c_str());
+	return is;
 }
