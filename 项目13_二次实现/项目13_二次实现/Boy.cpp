@@ -98,3 +98,16 @@ void Boy::inputBoy(Boy& boy)
 
 	boy = Boy(age, name, salary);
 }
+
+bool Boy::operator>(const Boy& boy)
+{
+	return boy.salary > salary;
+}
+
+ostream& operator<<(ostream& os, const Boy& boy) {
+	os << "性别:男"
+		<< "\t\t\t姓名:" << boy.name
+		<< "\t\t\t薪资:" << boy.salary
+		<< "\t\t\t年龄:" << boy.age;
+	return os;
+}

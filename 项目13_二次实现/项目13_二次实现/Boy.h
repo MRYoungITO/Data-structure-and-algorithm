@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <iostream>
 #include "Single.h"
 
 using namespace std;
@@ -22,8 +23,14 @@ public:
 	static void inputBoys(vector<Boy>& boys);
 	static void inputBoy(Boy& boy);
 
+	bool operator>(const Boy& boy);
+
+	friend ostream& operator<<(ostream& os, const Boy& boy);
+
 private:
 	//int age;
 	//string name;
 	int salary;
 };
+
+ostream& operator<<(ostream& os, const Boy& boy);

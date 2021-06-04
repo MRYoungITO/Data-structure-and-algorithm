@@ -26,6 +26,9 @@ public:
 	// 自动配对
 	void autoPair();
 
+	// 自动最优配对
+	void autoPairBest();
+
 	// 打印该数据库中的所有用户信息
 	void print();
 

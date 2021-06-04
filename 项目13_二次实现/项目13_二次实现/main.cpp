@@ -24,14 +24,16 @@ int main(void) {
 	Database data;
 
 	data.init();
+	data.print();
+	data.autoPair();
+	data.autoPairBest();
+	//Boy boy;
+	//Boy::inputBoy(boy);  // 输入boy信息
+	//data.addOne(boy);
 
-	Boy boy;
-	Boy::inputBoy(boy);  // 输入boy信息
-	data.addOne(boy);
-
-	Girl girl;
-	Girl::inputGirl(girl);
-	data.addOne(girl);
+	//Girl girl;
+	//Girl::inputGirl(girl);
+	//data.addOne(girl);
 		
 	system("pause");
 	return 0;
@@ -42,6 +44,7 @@ int main(void) {
 25 杨过 15000
 28 郭靖 8000
 35 段誉 50000
+26 陆展元 15500
 0
 18 小龙女 95
 25 如花 79

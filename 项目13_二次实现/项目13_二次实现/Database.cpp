@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include "Database.h"
+#include "Girl.h"
+#include "Boy.h"
 
 #define BOYS_FILE "boys.txt"
 #define GIRLS_FILE "girls.txt"
@@ -33,6 +35,64 @@ void Database::autoPair()
 				cout << girls[j].description() << endl;
 				cout << line << endl;
 			}
+		}
+	}
+
+	for (int i = 0; i < girls.size(); i++) {
+		for (int j = 0; j < boys.size(); j++) {
+			if (girls[i].satisfied(boys[j]) &&
+				boys[j].satisfied(girls[i])) {
+				cout << girls[i].description() << endl;
+				cout << boys[j].description() << endl;
+				cout << line << endl;
+			}
+		}
+	}
+}
+
+void Database::autoPairBest()
+{
+	cout << endl << "×Ô¶¯×î¼Ñ°éÂÂ: " << endl;
+	string line(100, '-');
+	cout << line << endl;
+
+	for (int i = 0; i < boys.size(); i++) {
+		Girl* girlBest = NULL;
+		for (int j = 0; j < girls.size(); j++) {
+			if (boys[i].satisfied(girls[j]) &&
+				girls[j].satisfied(boys[i])) {
+				if (!girlBest) {
+					girlBest = &girls[j];
+				}
+				else if (girls[j] > *girlBest) {
+					girlBest = &girls[j];
+				}
+			}
+		}
+		if (girlBest) {
+			cout << boys[i]<< endl;
+			cout << *girlBest << endl;
+			cout << line << endl;
+		}
+	}
+
+	for (int i = 0; i < girls.size(); i++) {
+		Boy* boyBest = NULL;
+		for (int j = 0; j < boys.size(); j++) {
+			if (girls[i].satisfied(boys[j]) &&
+				boys[j].satisfied(girls[i])) {
+				if (!boyBest) {
+					boyBest = &boys[j];
+				}
+				else if (boys[j] > *boyBest) {
+					boyBest = &boys[j];
+				}
+			}
+		}
+		if (boyBest) {
+			cout << girls[i] << endl;
+			cout << *boyBest << endl;
+			cout << line << endl;
 		}
 	}
 }

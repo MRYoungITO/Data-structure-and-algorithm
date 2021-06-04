@@ -93,3 +93,17 @@ void Girl::inputGirl(Girl& girl)
 
 	girl = Girl(age, name, yanZhi);
 }
+
+bool Girl::operator>(const Girl& girl)
+{
+	return girl.yanZhi > yanZhi;
+}
+
+ostream& operator<<(ostream& os, const Girl& girl)
+{
+	os << "性别:女"
+		<< "\t\t\t姓名:" << girl.name
+		<< "\t\t\t颜值:" << setw(3) << setiosflags(ios::left) << girl.yanZhi
+		<< "\t\t\t年龄:" << girl.age;
+	return os;
+}
