@@ -4,7 +4,8 @@
 
 using namespace std;
 
-enum class SpriteStoneLevel {
+enum class SpriteStoneLevel 
+{
 	PRIMARY_LEVEL,
 	MIDDLE_LEVEL,
 	ADVANCE_LEVEL,
@@ -15,12 +16,13 @@ enum class SpriteStoneLevel {
 class SpriteStone
 {
 public:
-	SpriteStone(int count = 0, SpriteStoneLevel level = SpriteStoneLevel::PRIMARY_LEVEL);
+	SpriteStone(int count = 0, SpriteStoneLevel level = SpriteStoneLevel::MIDDLE_LEVEL);
 	string str() const;
-	friend ostream& operator<<(ostream& os, const SpriteStone& stone);
+	friend ostream& operator<<(ostream& os, SpriteStone& stone);
+
 private:
-	int count;  // 灵石的数量: xxx块
-	SpriteStoneLevel level;  // 灵石的等级
+	int count; //灵石的数量: xxx块
+	SpriteStoneLevel level;  //灵石的等级
 };
 
-ostream& operator<<(ostream& os, const SpriteStone& stone);
+ostream& operator<<(ostream& os, SpriteStone& stone);
