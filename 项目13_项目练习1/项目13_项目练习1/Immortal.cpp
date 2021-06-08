@@ -1,5 +1,6 @@
 #include "Immortal.h"
 #include "SpriteStone.h"
+#include "Monster.h"
 
 Immortal::Immortal(const char* name, const char* menPai, ImmortalLevel& level)
 {
@@ -16,5 +17,12 @@ void Immortal::mining()
 
 bool Immortal::trade()
 {
-	return false;
+	if (!alive) {
+		return false;
+	}
+	SpriteStone stone;
+	for (int i = 0; i < monsters.size(); i++) {
+		// 不能使用+=, 因为只重载了+
+		stone = stone + monsters[i].getValue();
+	}
 }

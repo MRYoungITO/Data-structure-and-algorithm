@@ -29,6 +29,32 @@ string SpriteStone::str() const
 	return ret.str();
 }
 
+SpriteStone SpriteStone::operator+(const SpriteStone& stone)
+{
+	int sum = 0;
+	if (stone.level == SpriteStoneLevel::PRIMARY_LEVEL) {
+		sum += stone.count;
+	}
+	else if (stone.level == SpriteStoneLevel::MIDDLE_LEVEL) {
+		sum += stone.count * 10;
+	}
+	else if (stone.level == SpriteStoneLevel::ADVANCE_LEVEL) {
+		sum += stone.count * 100;
+	}
+
+	if (this->level == SpriteStoneLevel::PRIMARY_LEVEL) {
+		sum += this->count;
+	}
+	else if (this->level == SpriteStoneLevel::MIDDLE_LEVEL) {
+		sum += this->count * 10;
+	}
+	else if (this->level == SpriteStoneLevel::ADVANCE_LEVEL) {
+		sum += this->count * 100;
+	}
+
+	return SpriteStone(sum, SpriteStoneLevel::PRIMARY_LEVEL);
+}
+
 ostream& operator<<(ostream& os, SpriteStone& stone)
 {
 	os << stone.str();

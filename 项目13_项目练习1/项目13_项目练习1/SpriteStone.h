@@ -20,6 +20,7 @@ public:
 	string str() const;
 	friend ostream& operator<<(ostream& os, SpriteStone& stone);
 
+	SpriteStone operator+(const SpriteStone& stone);
 private:
 	int count; //灵石的数量: xxx块
 	SpriteStoneLevel level;  //灵石的等级
