@@ -28,7 +28,7 @@ enum class ImmortalLevel {
 class Immortal
 {
 public:
-	Immortal(const char* name, const char* menPai, ImmortalLevel& level);
+	Immortal(const char* name, const char* menPai, ImmortalLevel level);
 
 	// 挖矿
 	void mining();
@@ -46,10 +46,12 @@ public:
 
 	int getPower() const;
 	// 捕获妖兽
-	bool fight(const Monster& monster);
+	void fight(const Monster& monster);
 
 	friend ostream& operator<<(ostream& os, const Immortal& immortal);
-	
+	friend ostream& operator<<(ostream& os, const ImmortalLevel& level);
+
+	void dead();  // 修仙者死亡后的处理
 private:
 	string name;
 	string menPai;  // 门派
@@ -57,6 +59,10 @@ private:
 	vector<SpriteStone> stones; //灵石资产
 	vector<Monster> monsters; // 妖兽资产
 	bool alive;  // 生死状态
+
+	bool hadMonster(const Monster& monster);  // 判断是否有指定的妖兽
+	bool removeMonster(const Monster& monster); // 移除指定的妖兽
 };
 
 ostream& operator<<(ostream& os, const Immortal& immortal);
+ostream& operator<<(ostream& os, const ImmortalLevel& level);

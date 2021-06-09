@@ -4,7 +4,7 @@
 
 using namespace std;
 
-enum class SpriteStoneLevel 
+enum class SpriteStoneLevel
 {
 	PRIMARY_LEVEL,
 	MIDDLE_LEVEL,
@@ -19,8 +19,8 @@ public:
 	SpriteStone(int count = 0, SpriteStoneLevel level = SpriteStoneLevel::MIDDLE_LEVEL);
 	string str() const;
 	friend ostream& operator<<(ostream& os, SpriteStone& stone);
-
 	SpriteStone operator+(const SpriteStone& stone);
+	int getCount();
 private:
 	int count; //灵石的数量: xxx块
 	SpriteStoneLevel level;  //灵石的等级

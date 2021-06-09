@@ -55,6 +55,11 @@ SpriteStone SpriteStone::operator+(const SpriteStone& stone)
 	return SpriteStone(sum, SpriteStoneLevel::PRIMARY_LEVEL);
 }
 
+int SpriteStone::getCount()
+{
+	return this->count;
+}
+
 ostream& operator<<(ostream& os, SpriteStone& stone)
 {
 	os << stone.str();

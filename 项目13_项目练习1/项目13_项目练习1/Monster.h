@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -11,8 +12,10 @@ class Monster
 {
 public:
 	Monster(int level = 1, const string& category = "未知");
-	SpriteStone getValue();
+	SpriteStone getValue() const;
+	int getPower() const;  // 获取该妖兽的战斗力
 	friend ostream& operator<<(ostream& os, const Monster& monster);
+	friend bool operator==(const Monster& one, const Monster& other);
 
 private:
 	string category;  //妖兽的种类
@@ -20,3 +23,4 @@ private:
 };
 
 ostream& operator<<(ostream& os, const Monster& monster);
+bool operator==(const Monster& one, const Monster& other);
