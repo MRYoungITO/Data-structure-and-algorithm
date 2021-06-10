@@ -54,17 +54,66 @@ bool Immortal::trade(const Monster& monster)
 
 bool Immortal::trade(Immortal& other, const Monster& monster)
 {
-	return false;
+	if (!alive || !other.alive) {
+		return false;
+	}
+	if (!other.hadMonster(monster)) {
+		cout << other.name << "没有" << monster << endl;
+		return false;
+	}
+
+	// 计算当前的所有灵石总价
+	SpriteStone stone;
+	for (int i = 0; i < stones.size(); i++) {
+		stone = stone + stones[i];
+	}
+	if (stone >= monster.getValue()) {
+		// 购买
+		SpriteStone valueStone = monster.getValue();
+		stone = stone - valueStone;
+		this->stones.clear();  //只清除值,不会清除所占内存
+		this->stones.push_back(stone);
+
+		this->monsters.push_back(monster);
+		other.removeMonster(monster);
+		other.stones.push_back(valueStone);
+		return true;
+	}
+	else {
+		cout << "抱歉! " << this->name << "的灵石不够买" << monster << endl;
+		return false;
+	}
 }
 
 bool Immortal::trade(const Monster& monsterSource, Immortal& other, const Monster& monsterDest)
 {
-	return false;
+	if (!this->alive || !other.alive) {
+		return false;
+	}
+
+	if ((monsterSource == monsterDest) ||
+		!this->hadMonster(monsterSource) ||
+		!other.hadMonster(monsterDest) ||
+		!(monsterSource.getValue() >= monsterDest.getValue())) {
+		return false;
+	}
+
+	this->removeMonster(monsterSource);
+	other.removeMonster(monsterDest);
+	this->monsters.push_back(monsterDest);
+	other.monsters.push_back(monsterSource);
+	return true;
 }
 
 bool Immortal::trade(const Monster& monster, Immortal& other)
 {
-	return false;
+	if (!this->alive || !other.alive) {
+		return false;
+	}
+	if (!this->hadMonster(monster)) {
+		return false;
+	}
+	
 }
 
 int Immortal::getPower() const
@@ -118,7 +167,7 @@ bool Immortal::hadMonster(const Monster& monster)
 
 bool Immortal::removeMonster(const Monster& monster)
 {
-	// 顶一个迭代器, 是一种特殊的指针, 指向Monsters中的第一个成员的位置
+	// 定义一个迭代器, 是一种特殊的指针, 指向Monsters中的第一个成员的位置
 	vector<Monster>::iterator it = monsters.begin();
 	while (it != monsters.end()) {
 		if (*it == monster) {
@@ -135,7 +184,7 @@ bool Immortal::removeMonster(const Monster& monster)
 ostream& operator<<(ostream& os, const Immortal& immortal)
 {
 	os << "[修仙者]" << immortal.name
-		<< (immortal.alive ? "[在修]" : "[已忘]")
+		<< (immortal.alive ? "[在修]" : "[已亡]")
 		<< "\t门派:" << immortal.menPai
 		<< "\t级别:" << immortal.level;  // 重载
 
@@ -143,7 +192,7 @@ ostream& operator<<(ostream& os, const Immortal& immortal)
 	for (int i = 0; i < immortal.stones.size(); i++) {
 		stone = stone + immortal.stones[i];
 	}
-	os << "\t灵石: 折合" << stone;
+	os << "\t灵石:折合" << stone;
 	os << "\t妖兽:";
 	if (immortal.monsters.size() == 0) {
 		os << "无";

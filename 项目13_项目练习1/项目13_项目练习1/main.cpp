@@ -30,6 +30,33 @@ void testIImmortal() {
 	rock.fight(monster);
 	cout << "捕获" << monster << "之后:" << endl;
 	cout << rock << endl;
+
+	Monster monster2(1, "蜘蛛");
+	rock.fight(monster2);
+	Monster monster3(1, "壁虎");
+	rock.fight(monster3);
+	cout << "捕获" << monster2 << "和" << monster3 << "之后:" << endl;
+	cout << rock << endl;
+
+	rock.trade(monster2);
+	cout << "售卖" << monster2 << "之后" << endl;
+	cout << rock << endl;
+
+	rock.trade();
+	cout << "售卖所有妖兽之后" << endl;
+	cout << rock << endl;
+
+	Immortal hanli("韩立", "黄枫谷", ImmortalLevel::JIE_DAN);
+	cout << hanli << endl;
+
+	Monster monster4(2, "蛟龙");
+	hanli.fight(monster4);
+	cout << hanli << endl;
+
+	rock.trade(hanli, monster4);
+	cout << "贸易之后" << endl;
+	cout << rock << endl;
+	cout << hanli << endl;
 }
 
 int main(void) {
