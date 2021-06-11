@@ -57,6 +57,21 @@ void testIImmortal() {
 	cout << "贸易之后" << endl;
 	cout << rock << endl;
 	cout << hanli << endl;
+
+	Monster monster5(1, "天蚕");
+	hanli.fight(monster5);
+	cout << "韩立" << "捕获" << monster5 << endl;
+	cout << hanli << endl;
+
+	cout << "Rock使用" << monster4 << "和韩立交换" << monster5 << endl;
+	rock.trade(monster4, hanli, monster5);
+	cout << rock << endl;
+	cout << hanli << endl;
+
+	hanli.trade(monster4, rock);
+	cout << "韩立卖" << monster4 << "给Rock" << endl;
+	cout << rock << endl;
+	cout << hanli << endl;
 }
 
 int main(void) {

@@ -111,9 +111,31 @@ bool Immortal::trade(const Monster& monster, Immortal& other)
 		return false;
 	}
 	if (!this->hadMonster(monster)) {
+		cout << this->name << "没有" << monster << endl;
 		return false;
 	}
+
+	SpriteStone otherStone;
+	for (int i = 0; i < other.stones.size(); i++) {
+		otherStone = otherStone + other.stones[i];
+	}
+
+	if (!(otherStone >= monster.getValue())) {
+		return false;
+	}
+	// 对方修仙者付钱
+	otherStone = otherStone - monster.getValue();
+	other.stones.clear();
+	other.stones.push_back(otherStone);
+	// 对方修仙者收妖兽
+	other.monsters.push_back(monster);
+
+	// 己方移除妖兽
+	this->removeMonster(monster);
+	// 己方收取灵石
+	this->stones.push_back(monster.getValue());
 	
+	return true;
 }
 
 int Immortal::getPower() const
