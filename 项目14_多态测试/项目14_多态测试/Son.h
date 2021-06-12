@@ -3,6 +3,6 @@
 class Son : public Father
 {
 public:
-	void play();
+	virtual void play();
 };
 
