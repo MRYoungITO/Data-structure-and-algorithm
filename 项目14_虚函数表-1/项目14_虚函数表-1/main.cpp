@@ -1,4 +1,5 @@
 #include <iostream>
+#include <Windows.h>
 
 using namespace std;
 class Father
@@ -18,4 +19,15 @@ int Father::z = 0;
 
 int main(void) {
 	Father father;
+
+	cout << "sizeof(father)==" << sizeof(father) << endl;
+
+	cout << "对象地址:" << (int*)&father << endl;
+	int* vptr = (int*)*(int*)(&father);
+
+	cout << "调用第一个虚函数: ";
+	*vptr
+
+	system("pause");
+	return 0;
 }
