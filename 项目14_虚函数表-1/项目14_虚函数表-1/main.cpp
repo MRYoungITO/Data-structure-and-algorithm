@@ -15,9 +15,20 @@ public:
 	static int z;
 };
 
-class Son : public Father {
+class Mother {
+public:
+	virtual void handle1() { cout << "Mother::handle1" << endl; }
+	virtual void handle2() { cout << "Mother::handle2" << endl; }
+	virtual void handle3() { cout << "Mother::handle3" << endl; }
+public:  //  为了便于测试, 使用public权限
+	int m = 400;
+	int n = 500;
+};
+
+class Son : public Father, public Mother {
 public:
 	void func1() { cout << "Son::func1" << endl; }
+	virtual void handle1() { cout << "Son::handle1" << endl; }
 	virtual void func5() { cout << "Son::func5" << endl; }
 };
 
@@ -73,8 +84,15 @@ int main(void) {
 	//cout << "sizeof(son) == " << sizeof(son) << endl;
 
 	Son son;
-	Father* father = &son;
-	father->func1();
+	/*Father* father = &son;
+	father->func1();*/
+	int* vptr = (int*)*(int*)&son;
+	cout << "第一个虚函数表指针: " << vptr << endl;
+
+	for (int i = 0; i < 4; i++) {
+		cout << "调用第" << i + 1 << "个虚函数: ";
+		((func_t) * (vptr + i))();
+	}
 
 	system("pause");
 	return 0;
