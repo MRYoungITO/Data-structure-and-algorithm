@@ -36,7 +36,7 @@ int Father::z = 0;
 
 typedef void(*func_t)(void);  
 
-int main(void) {
+int main1(void) {
 	/*Father father;
 
 	cout << "sizeof(father)==" << sizeof(father) << endl;
@@ -92,6 +92,20 @@ int main(void) {
 	for (int i = 0; i < 4; i++) {
 		cout << "调用第" << i + 1 << "个虚函数: ";
 		((func_t) * (vptr + i))();
+	}
+
+	for (int i = 0; i < 2; i++) {
+		cout << *(int*)((int)&son + 4 + i * 4) << endl;
+	}
+
+	int* vptr2 = (int*)*((int*)&son + 3);
+	for (int i = 0; i < 3; i++) {
+		cout << "调用第" << i + 1 << "个虚函数: ";
+		((func_t) * (vptr2 + i))();
+	}
+
+	for (int i = 0; i < 2; i++) {
+		cout << *(int*)((int)&son + 16 + i * 4) << endl;
 	}
 
 	system("pause");
