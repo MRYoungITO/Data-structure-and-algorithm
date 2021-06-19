@@ -41,6 +41,7 @@ void main(void) {
 	int a = 1;
 	int b = 2;
 
+
 	//当函数模板和普通函数都符合调用时,优先选择普通函数
 	//cout<<"Max(a, b)"<<Max(a, b)<<endl;
 
