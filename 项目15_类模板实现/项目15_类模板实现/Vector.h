@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
@@ -12,8 +11,8 @@ public:
 
 	int getLength();  //获取内部存储的元素个数
 
-	template <typename T>
-	friend ostream& operator<<(const ostream& os, const Vector<T>& object);
+	//template <typename T>
+	friend ostream& operator<< <T> (ostream& out, const Vector& object);
 
 	//Vector<int> a1, a2;  a1[0]
 	T& operator[](int index);
@@ -29,5 +28,5 @@ private:
 	int m_len;
 };
 
-template <typename T>
-ostream& operator<<(const ostream& os, const Vector<T>& object);
+//template <typename T>
+//ostream& operator<<<T>(ostream& out, const Vector& object);

@@ -32,8 +32,13 @@ int Vector<T>::getLength()
 }
 
 template <typename T>
-ostream& operator<<(const ostream& os, const Vector<T>& object) {
+ostream& operator<<(ostream& out, const Vector<T>& object) {
+	for (int i = 0; i < object.m_len; i++) {
+		out << object.m_base[i] << " ";
+	}
+	out << endl;
 
+	return out;
 }
 
 
