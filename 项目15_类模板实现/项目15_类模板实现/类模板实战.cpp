@@ -5,47 +5,76 @@ using namespace std;
 
 class Student {
 	friend ostream& operator<<(ostream& out, const Student& object);
+	friend ostream& operator<<(ostream& out, const Student* object);
 public:
 	Student() {
-		age = 0;
-		name[0] = '\0';
+		this->age = 0;
+		this->pname = new char[64];
+		strcpy_s(this->pname, 64, "\0");
 	}
 	Student(int age, const char* name) {
 		this->age = age;
-		strcpy_s(this->name, 64, name);
+		this->pname = new char[64];
+		strcpy_s(this->pname, 64, name);
+	}
+
+	Student& operator=(const Student& object) {
+		if (this->pname) {
+			delete[] pname;
+			this->pname = NULL;
+			this->age = 0;
+		}
+
+		this->age = object.age;
+		this->pname = new char[64];
+		strcpy_s(this->pname, 64, object.pname);
+
+		return *this;
 	}
 
 	void print() {
-		cout << name << ", " << age << endl;
+		cout << pname << ", " << age << endl;
 	}
 
 	~Student() {
-
+		if (this->pname) {
+			delete[] pname;
+			this->pname = NULL;
+			this->age = 0;
+		}
 	}
 private:
 	int age;
-	char name[64];
+	char* pname;
 };
 
 ostream& operator<<(ostream& out, const Student& object) {
-	out << "(" << object.name << ", " << object.age << ")";
+	out << "(" << object.pname << ", " << object.age << ")";
+	return out;
+}
+
+ostream& operator<<(ostream& out, const Student* object) {
+	out << "(" << object->pname << ", " << object->age << ")";
 	return out;
 }
 
 int main(void) {
 	Student s1(18, "李小花");
 	Student s2(19, "王大炮");
+	Student s3;
+	s3 = s2;
+	cout << s3 << endl;
 
-	Vector<Student*> studentVector(2);
+	Vector<Student*> studentVector(3);
 	studentVector[0] = &s1;
 	studentVector[1] = &s2;
+	studentVector[2] = &s3;
 
 	//for (int i = 0; i < studentVector.getLength(); i++) {
 	//	studentVector[i].print();
 	//}
 
 	cout << studentVector << endl;
-	system("pause");
 
 	Vector<int> myVector(10);
 	// int a[10];  len: sizeof(a) / sizeof(a[0]);
