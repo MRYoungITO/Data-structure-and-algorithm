@@ -24,7 +24,7 @@ public:
 			this->pname = NULL;
 			this->age = 0;
 		}
-
+		
 		this->age = object.age;
 		this->pname = new char[64];
 		strcpy_s(this->pname, 64, object.pname);
