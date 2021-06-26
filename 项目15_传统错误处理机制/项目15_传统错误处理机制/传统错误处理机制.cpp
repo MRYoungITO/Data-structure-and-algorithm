@@ -6,9 +6,20 @@ using namespace std;
 
 #define BUDSIZE 1024
 
-// 实现文件的二进制拷贝
-int copyfile2(const char* dest, const char* src) {
+class ExceptionTest {
+
+};
+
+//1.对于异常接口的声明, 在函数声明中列出可能抛出的所有异常类型
+//2.如果没有包含异常接口声明. 此函数可以抛出任何类型的异常
+//3.如果函数声明中有列出可能抛出的所有所有异常类型, 那么抛出其他类型的异常将可能导致程序终止
+//4.如果一个函数不想抛出任何异常, 可以使用throw()声明
+
+// 实现文件的二进制拷贝							//throw(float, string*, int)
+int copyfile2(const char* dest, const char* src) throw() {
 	FILE* fp1 = NULL, * fp2 = NULL;
+
+	throw ExceptionTest();
 
 	//通过throw操作创建一个异常对象并抛掷
 	throw 0.01f;
