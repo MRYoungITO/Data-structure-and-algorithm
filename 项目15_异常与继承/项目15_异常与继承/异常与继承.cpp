@@ -39,7 +39,7 @@ public:
 class errZeroException : public errSizeException {
 public:
 	errZeroException(int size) : errSizeException(size) {
-
+		
 	}
 	virtual	void printError() {
 		cout << "errZeroException size: " << m_size << endl;
