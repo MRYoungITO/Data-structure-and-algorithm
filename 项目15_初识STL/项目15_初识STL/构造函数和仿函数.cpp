@@ -33,7 +33,7 @@ class FunStudent {
 public:
 	bool operator()(const student& left, const student& right) const {
 		cout << "µ÷ÓÃÁË FunStudent ." << endl;
-		return left > right;
+		return left < right;
 	}
 public:
 	int ret;
