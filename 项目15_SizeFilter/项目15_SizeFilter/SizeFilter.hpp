@@ -47,8 +47,15 @@ template <class _Ty,
 
 		bool insert(const value_type& _Val) {
 			//插入元素
-			pair<_Container::iterator, bool> ret = c.insert(_Val);
+			/*pair<_Container::iterator, bool> ret = c.insert(_Val);
 			if (ret.second) {
+				cout << "插入" << _Val << "成功!" << endl;
+				return true;
+			}
+			else*/ 
+
+			typename _Container::iterator ci = c.insert(c.begin(), _Val);
+			if (ci != c.end()) {
 				cout << "插入" << _Val << "成功!" << endl;
 				return true;
 			}
@@ -89,7 +96,7 @@ template <class _Ty,
 			//获取最大值
 			pair<value_type, bool> ret;
 			typename _Container::iterator end = c.end();
-			if (c.size()>0) {	//存在最小值
+			if (c.size()>0) {	//存在最大值
 				ret.first = *(--end);
 				ret.second = true;
 				return ret;

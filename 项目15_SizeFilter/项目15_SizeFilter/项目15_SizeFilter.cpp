@@ -1,17 +1,26 @@
 #include <Windows.h>
 #include <iostream>
+#include <set>
 
 #include "SizeFilter.hpp"
 
 using namespace std;
 
 int main(void) {
+	multiset<int> musetInt;
+	set<int> setInt;
+	//setInt.insert()
+	//musetInt.insert()
 
-	sizeFilter<int> sf;
+	sizeFilter<int, multiset<int>> sf;
+	//sizeFilter<int, set<int>> sf;
 
 	for (int i = 0; i < 10; i++) {
 		sf.insert(i * 5);
 	}
+
+	//Ö»´æ´¢1¸öÔªËØ 5
+	//sf.insert(5);
 
 	sf.erase(0);
 	sf.erase(45);
