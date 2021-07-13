@@ -13,6 +13,11 @@ public:
 	virtual void cry() {
 		cout << "喵喵喵" << endl;
 	}
+
+	void play() {
+		cout << "爬爬树" << endl;
+	}
+
 };
 
 class Dog : public Animal {
@@ -20,36 +25,68 @@ public:
 	virtual void cry() {
 		cout << "汪汪汪" << endl;
 	}
+
+	void play() {
+		cout << "溜达溜达" << endl;
+	}
 };
+
+void animalPlay(Animal& animal) {
+	animal.cry();
+
+	try {
+		Dog& pDog = dynamic_cast<Dog&>(animal);
+		pDog.play();
+	}
+	catch (std::bad_cast bc) {
+		cout << "不是狗, 那应该是猫" << endl;
+	}
+	
+
+	try {
+		Cat& pCat = dynamic_cast<Cat&>(animal);
+		pCat.play();
+	}
+	catch (std::bad_cast bc) {
+		cout << "不是猫, 那应该是上面的狗" << endl;
+	}
+}
+
+void animalPlay(Animal* animal) {
+	animal->cry();
+
+	Dog* pDog = dynamic_cast<Dog*>(animal);
+	if (pDog) {
+		pDog->play();
+	}
+	else { //pDog == NULL
+		cout << "不是狗, 别骗我! " << endl;
+	}
+
+	Cat* pCat = dynamic_cast<Cat*>(animal);
+	if (pCat) {
+		pCat->play();
+	}
+	else { //pCat == NULL
+		cout << "不是猫, 别骗我! " << endl;
+	}
+}
 
 int main(void) {
 
-	//第一种情况 父子类之间的类型转换
 	Dog* dog1 = new Dog();
-	Animal* a1 = static_cast<Animal*>(dog1); //子类的指针转型到父类指针
-	a1->cry();
+	Animal* a1 = dog1;
 
-	Dog* dog1_1 = static_cast<Dog*>(a1);	 //父类的指针转型到子类的指针
-	Cat* cat1 = static_cast<Cat*>(a1);		 //父类到子类, 有风险, 这样是不行的, 会出问题
-
+	//animalPlay(a1);
 	Dog dog2;
-	Animal& a2 = static_cast<Animal&>(dog2); //子类的引用转型到父类的引用
-	Dog& dog2_2 = static_cast<Dog&>(a2);	 //父类到子类的引用
-	a2.cry();
-	delete dog1;
+	animalPlay(dog2);
 
-	//第二种 基本类型的转换
-	int kk = 234;
-	char cc = static_cast<char>(kk);
+	Cat* cat1 = new Cat();
+	Animal* a2 = cat1;
 
-	//第三种 把空指针转换成目标类型的空指针
-	int* p = static_cast<int*>(NULL);
-	Dog* dp = static_cast<Dog*>(NULL);
-
-	//第四种 把任何类型的表达式转换城void类型
-	int* q = new int[10];
-	void* vq = static_cast<void*>(q);
-	vq = q;
+	//animalPlay(a2);
+	Cat cat2;
+	animalPlay(cat2);
 
 	system("pause");
 	return 0;
