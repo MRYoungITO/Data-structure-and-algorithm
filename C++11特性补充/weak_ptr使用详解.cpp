@@ -23,7 +23,7 @@ public:
 	}
 
 private:
-	shared_ptr<girl> girl_friend;
+	weak_ptr<girl> girl_friend;	//lock
 };
 
 class girl {
@@ -51,9 +51,22 @@ void use_trap() {
 	weak_ptr<girl> wp_girl1;			//定义空的弱指针
 	weak_ptr<girl> wp_girl2(sp_girl);	//使用共享构造
 	wp_girl1 = sp_girl;					//允许共享指针赋值给弱指针
-	
+
+	cout << "sp_girl ref_count: " << sp_girl.use_count() << endl;
+	cout << "wp_girl.use_count: " << wp_girl1.use_count() << endl;
+
+	/*(*sp_girl).set_boy_friend(sp_boy);	//弱指针不支持* 和 -> 对指针访问
+	sp_girl->set_boy_friend(sp_boy);*/
+
+	//在必要的时候转成共享指针
+	shared_ptr<girl> sp_girl1;
+	sp_girl1 = wp_girl1.lock();
+	cout << "after lock, wp_girl.use_count: " << wp_girl1.use_count() << endl;
+
+	sp_girl1 = NULL;
+
 	sp_girl->set_boy_friend(sp_boy);
-	//sp_boy->set_girl_friend(sp_girl);
+	sp_boy->set_girl_friend(sp_girl);
 }
 
 int main(void) {
