@@ -48,19 +48,25 @@ bool listInsert(SqList& L, int i, int e) {
 }
 
 bool listDelete(SqList& L, int i) {
-	if (i < 0 || i >= L.length)return false;
+	if (i < 0 || i >= L.length)return false;	//不合法
 
-	if (i == L.length - 1) {
+	if (i == L.length - 1) {	//删除最后一个元素, 直接删除
 		L.length--;
 		return true;
 	}
 
 	for (int j = i; j < L.length - 1; j++) {
-		L.elems[j] = L.elems[j + 1];
+		L.elems[j] = L.elems[j + 1];	//被删除元素之后的元素前移
 	}
 
 	L.length--;
 	return true;
+}
+
+void destroyList(SqList& L) {
+	if (L.elems)delete[]L.elems;	//释放存储空间
+	L.length = 0;
+	L.size = 0;
 }
 
 void listPrint(SqList& L) {
@@ -127,6 +133,9 @@ int main(void) {
 	}
 
 	listPrint(list);
+
+	//5. 销毁
+	destroyList(list);
 
 	system("pause");
 	return 0;
