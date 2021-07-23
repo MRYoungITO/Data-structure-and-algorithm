@@ -14,12 +14,12 @@ typedef struct {
 	ConnTimeout* elems;	//顺序表的基地址
 	int length;			//顺序表的长度
 	int size;			//顺序表的空间
-}TimeOutSqList;
+}TimeoutSqList;
 
-bool initList(TimeOutSqList& L);
-bool listAppend(TimeOutSqList& L, ConnTimeout e);
-bool listDelete(TimeOutSqList& L, int i);
-void destroyList(TimeOutSqList& L);
-void listPrint(TimeOutSqList& L);
+bool initList(TimeoutSqList& L);
+bool listAppend(TimeoutSqList& L, ConnTimeout e);
+bool listDelete(TimeoutSqList& L, int i);
+void destroyList(TimeoutSqList& L);
+void listPrint(TimeoutSqList& L);
 
 #endif // !_WEBSERVER_H_

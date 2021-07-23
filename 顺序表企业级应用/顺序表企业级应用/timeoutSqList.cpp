@@ -3,7 +3,7 @@
 
 using namespace std;
 
-bool initList(TimeOutSqList& L) {	//构造一个空的顺序表L
+bool initList(TimeoutSqList& L) {	//构造一个空的顺序表L
 	L.elems = new ConnTimeout[MAX_SIZE];	//为顺序表分配MAX_SIZE个STAR元素的空间
 	if (!L.elems)return false;		//考虑内存分配失败的情况
 
@@ -12,7 +12,7 @@ bool initList(TimeOutSqList& L) {	//构造一个空的顺序表L
 	return true;
 }
 
-bool listAppend(TimeOutSqList& L, ConnTimeout e) {			//e 表示添加元素的值
+bool listAppend(TimeoutSqList& L, ConnTimeout e) {			//e 表示添加元素的值
 	if (L.length == L.size)return false;	//存储空间已满
 
 	L.elems[L.length] = e;
@@ -32,7 +32,7 @@ bool listAppend(TimeOutSqList& L, ConnTimeout e) {			//e 表示添加元素的值
 //	return true;
 //}
 
-bool listDelete(TimeOutSqList& L, int i) {
+bool listDelete(TimeoutSqList& L, int i) {
 	if (i < 0 || i >= L.length)return false;	//不合法
 
 	if (i == L.length - 1) {	//删除最后一个元素, 直接删除
@@ -48,13 +48,13 @@ bool listDelete(TimeOutSqList& L, int i) {
 	return true;
 }
 
-void destroyList(TimeOutSqList& L) {
+void destroyList(TimeoutSqList& L) {
 	if (L.elems)delete[]L.elems;	//释放存储空间
 	L.length = 0;
 	L.size = 0;
 }
 
-void listPrint(TimeOutSqList& L) {
+void listPrint(TimeoutSqList& L) {
 	cout << "当前: " << L.size << ", 已保存元素个数 Length: " << L.length << endl;
 	for (int i = 0; i <= L.length - 1; i++) {
 		cout << "fd: " << L.elems[i].fd << ", timeout:  " << L.elems[i].timeout << endl;

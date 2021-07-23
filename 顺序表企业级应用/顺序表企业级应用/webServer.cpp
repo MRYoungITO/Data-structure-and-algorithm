@@ -23,7 +23,7 @@ int main(void) {
 	for (int i = 0; i < 10; i++) {
 		ConnTimeout e;
 		e.fd = i;
-		e.timeout = now + 5 + (2 * i);
+		e.timeout = now + 5 + 2 * i;
 		listAppend(list, e);
 	}
 
@@ -51,4 +51,20 @@ int main(void) {
 void checkTimeouts(TimeoutSqList& list, time_t now) {
 	int fd, i;
 	cout << "检查超时fd... ...\n";
+
+	for (i = 0; i < list.length; i++) {
+		if (list.elems[i].timeout > now) {
+			cout << list.elems[i].timeout << "    " << now << endl;
+			continue;
+		}
+		
+		//超时, 清理连接
+		fd = list.elems[i].fd;
+		//关闭连接
+		printf("连接[fd%d] 已经超时, 关闭连接!\n", fd);
+
+		//删除顺序表中的元素
+		listDelete(list, i);
+		i--;
+	}
 }
