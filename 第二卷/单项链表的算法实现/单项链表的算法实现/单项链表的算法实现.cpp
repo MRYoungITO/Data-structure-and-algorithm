@@ -14,6 +14,7 @@ bool InitList(LinkList*& L) {
 	if (!L)return false;	//生成节点失败
 
 	L->next = NULL;
+	L->data = -1;
 	return true;
 }
 
@@ -108,6 +109,7 @@ bool Link_GetElem(LinkList*& L, int i, int& e) {
 
 	if (!p)return false; //查无此值
 
+	e = p->data;
 	return true;
 }
 
@@ -143,7 +145,7 @@ bool LinkDelete(LinkList*& L, int i) {	//单链表的删除
 	int index = 0;
 	p = L;
 
-	if (!L || L->next) {
+	if (!L || !L->next) {
 		return false;
 	}
 
@@ -158,6 +160,20 @@ bool LinkDelete(LinkList*& L, int i) {	//单链表的删除
 	p->next = q->next;	//改变删除结点前驱结点的指针域
 	delete q;			//释放被删除结点的空间
 	return true;
+}
+
+void LinkDestroy(LinkList*& L) {  //单链表的销毁
+
+	//定义临时节点p指向头节点
+	LinkNode* p = L;
+	cout << "销毁链表!" << endl;
+
+	while (p) {
+		L = L->next;  //L指向下一个节点
+		cout << "删除元素: " << p->data << endl;
+		delete p;	  //删除当前节点
+		p = L;		  //p移向像一个节点
+	}
 }
 
 int main(void) {
@@ -241,7 +257,7 @@ int main(void) {
 	//7. 单链表根据值查询元素所在的位置
 	int index = 0;
 	if (Link_FindElem(L, 10, index)) {
-		cout << "查找元素10存在, 坐在位置: " << index << endl;
+		cout << "查找元素10存在, 所在位置: " << index << endl;
 	}
 	else {
 		cout << "不存在元素 10." << endl;
@@ -256,6 +272,8 @@ int main(void) {
 		cout << "删除第2个元素失败!" << endl;
 	}
 
+	//9. 销毁单链表
+	LinkDestroy(L);
 	system("pause");
 	return 0;
 }
