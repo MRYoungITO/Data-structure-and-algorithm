@@ -56,6 +56,51 @@ void LinkPrint(LinkList*& L) {	//循环链表的输出
 	cout << endl;
 }
 
+bool Joseph(LinkList*& L, int interval) {
+	
+	LinkNode* p, * q;
+	int i = 0, j = 0;
+	int times = 0, num = 0;
+
+	p = L;
+	if (!L || p->next == L) {
+		cout << "链表为空!" << endl;
+		return false;
+	}
+
+	if (interval < 1) {
+		cout << "报数淘汰口令不能小于1!" << endl;
+		return false;
+	}
+
+	do {
+		i += interval;
+
+		//查找第一个结点, p指向该节点的上一个结点
+		while (p->next) {
+			if (p->next != L)j++;
+			if (j >= i)break;
+			p = p->next;
+		}
+
+		times++;
+
+		q = p->next;	//临时保存被删结点的地址以备释放空间
+		num = q->data;
+		if (times == 5) cout << "第5个出圈的编号是: " << num << endl;
+		printf("cur: %d  last: %d  next: %d\n", q->data, p->data, q->next->data);
+
+		p->next = q->next;
+		delete q;	//释放被删除结点的位置
+
+		LinkPrint(L);
+	} while (L->next != L);	//链表不为空, 继续报数
+
+	cout << "最后一个出圈的编号是: " << num << endl;
+
+	return true;
+}
+
 int main(void) {
 	LinkList* L, * s;
 	int i = 0;
@@ -85,7 +130,11 @@ int main(void) {
 		}
 	}
 
+	cout << "尾插法创建循环链表输出结果: \n";
 	LinkPrint(L);
+
+	//3. 解答约瑟夫问题
+	Joseph(L, 9);
 
 	system("pause");
 	return 0;
