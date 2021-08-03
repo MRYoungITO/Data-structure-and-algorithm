@@ -49,7 +49,7 @@ bool DbListInsert_back(DbLinkList& L, DbLinkNode& node) {
 }
 
 int main(void) {
-	ConnTimeout* cl = NULL, * s = NULL;;
+	ConnTimeout* cl = NULL, * s = NULL;
 	STAR* sl = NULL;
 	int n = 0;
 
