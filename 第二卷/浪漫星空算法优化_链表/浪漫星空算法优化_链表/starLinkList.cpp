@@ -1,7 +1,45 @@
 #include <iostream>
-#include "starLinkList.h"
+#include <string>
+#include <time.h>
+#include <stdlib.h>
+#include <graphics.h> 
+#include <conio.h>
 
 using namespace std;
+
+#define MAX_STAR 100 
+#define SCREEN_WIDTH 440 
+#define SCREEN_HEIGHT 280 
+#define MAX_STEP 5 
+#define MAX_RADIUS 3 
+#define BOTTOM_MARGIN 100 
+
+typedef struct _DoubleLinkNode {
+	//int data; //节点的数据域
+	struct _DoubleLinkNode* next; //下一个节点的指针域
+	struct _DoubleLinkNode* prev; //上一个节点的指针域
+}DbLinkNode, DbLinkList;  //LinkList 为指向结构体LNode的指针类型
+
+//星星状态 
+enum STATUS {
+	STOP = 0,
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	RANDOM,
+	ALL_STATUS
+};
+
+typedef struct {
+	int x;				//星星的x坐标
+	int y;				//星星的y坐标
+	enum STATUS stat;	//状态
+	unsigned radius;	//星星的半径
+	int step;			//每次跳跃的距离
+	int color;			//星星的颜色
+	DbLinkNode node;	//双向链表节点 "挂件"
+}STAR;
 
 bool InitLoopList(DbLinkList& L) { //构造一个空的循环链表
 
@@ -10,52 +48,82 @@ bool InitLoopList(DbLinkList& L) { //构造一个空的循环链表
 	return true;
 }
 
-bool listAppend(SqList& L, struct STAR e) {			//e 表示添加元素的值
-	if (L.length == L.size)return false;	//存储空间已满
+//尾插法 
+bool DbListInsert_back(DbLinkList& L, DbLinkNode& node) {
+	DbLinkNode* last = NULL;
 
-	L.elems[L.length] = e;
-	L.length++;								//表长增加1
+	last = &L;
+
+	while (last->next) last = last->next;
+
+	node.next = NULL;
+	last->next = &node;
+	node.prev = last;
 	return true;
 }
 
-//bool listInsert(SqList& L, int i, struct STAR e) {
-//	if (i < 0 || i >= L.length)return false;	//i 值不合法
-//	if (L.length > MAX_STAR)return false;		//存储空间已满
-//
-//	for (int j = L.length - 1; j >= i; j--) {
-//		L.elems[j + 1] = L.elems[j];	//从最后一个元素开始后移, 直到第一个元素后移
-//	}
-//	L.elems[i] = e;	//将新元素 e 放入第 i 个位置
-//	L.length++;		//表长增加1
-//	return true;
-//}
+void initStar(STAR* _star) {
+	int rgb = 0;
 
-bool listDelete(SqList& L, int i) {
-	if (i < 0 || i >= L.length)return false;	//不合法
+	//rand() 得到随机数范围 0 - 32767 RAND_MAX 
+	_star->x = rand() % SCREEN_WIDTH; // x 范围 0 -639 
+	_star->y = rand() % (SCREEN_HEIGHT - BOTTOM_MARGIN);// y 范围 0 - 379 
 
-	if (i == L.length - 1) {	//删除最后一个元素, 直接删除
-		L.length--;
-		return true;
-	}
-
-	for (int j = i; j < L.length - 1; j++) {
-		L.elems[j] = L.elems[j + 1];	//被删除元素之后的元素前移
-	}
-
-	L.length--;
-	return true;
+	_star->stat = (enum STATUS)(rand() % ALL_STATUS);  //星星状态随机
+	_star->radius = 1 + rand() % MAX_RADIUS; //半径控制 1 - 3 
+	_star->step = rand() % MAX_STEP + 1; //步长 1 - 5 
+	rgb = 255 * _star->step / MAX_STEP; // 0 - 255 
+	_star->color = RGB(rgb, rgb, rgb);
 }
 
-void destroyList(SqList& L) {
-	if (L.elems)delete[]L.elems;	//释放存储空间
-	L.length = 0;
-	L.size = 0;
-}
+int main(void) {
 
-void listPrint(SqList& L) {
-	cout << "顺序表存储空间size: " << L.size << ", 已保存元素个数 Length: " << L.length << endl;
-	for (int i = 0; i <= L.length - 1; i++) {
-		cout << "第" << i + 1 << "颗星星: x = " << L.elems[i].x << ", y = " << L.elems[i].y << ", radius = " << L.elems[i].radius << endl;
+	STAR* sl = NULL, * s = NULL;
+	int n = 0;
+
+	//1. 初始化一个空的双向链表
+	sl = new STAR;
+	sl->x = -1;
+
+	InitLoopList(sl->node);
+	
+	//2. 使用尾插法
+	cout << "尾插法创建双向链表" << endl;
+	std::cout << "请输入星星个数 n：";
+	cin >> n;
+
+	while (n > 0) {
+		s = new STAR; //生成新节点 s 
+		initStar(s);
+		printf("s 的地址:%p node: %p\n", s , &(s->node));
+		DbListInsert_back(sl->node, s->node);
+		n--;
 	}
-	cout << endl;
+
+	//3. 根据链表节点访问数据
+	DbLinkNode* p = NULL;
+	p = &(sl->node);
+	cout << "遍历所有星星：" << endl;
+
+	while (p) {
+		int offset = offsetof(STAR, node);
+		STAR* ct = (STAR*)((size_t)p - offset);
+		cout << ct->x << "  " << ct->y /* << "  " << ct->stat << "  " << ct->radius << "  " << ct->color*/ << endl;
+		p = p->next;
+	}
+
+	//4. 销毁双向链表 
+	p = &(sl->node);
+	cout << "销毁所有星星：" << endl;
+	while (p) {
+		int offset = offsetof(STAR, node);
+		STAR* ct = (STAR*)((size_t)p - offset);
+		printf("offset: %u ct: %p p:%p\n", offset, ct, p);
+		cout << ct->x << "  " << ct->y << endl;
+		p = p->next;
+		delete ct;
+	}
+
+	system("pause");
+	return 0;
 }
