@@ -58,7 +58,8 @@ int EnterQueue(SeqQueue* SQ, DataType *data) {
 }
 
 //出队, 将队列中队头的元素data出队, 后面的元素向前移动
-int DeleteQueue(SeqQueue* SQ, DataType *data) {
+int DeleteQueue1(SeqQueue* SQ, DataType *data) {
+
 	if (!SQ || IsEmpty(SQ)) {
 		cout << "队列为空!" << endl;
 		return 0;
@@ -76,6 +77,26 @@ int DeleteQueue(SeqQueue* SQ, DataType *data) {
 	return 1;
 }
 
+//出队, 将队列中队头的元素data出队, 后面的元素向前移动
+int DeleteQueue2(SeqQueue* SQ, DataType* data) {
+
+	if (!SQ || IsEmpty(SQ)) {
+		cout << "队列为空!" << endl;
+		return 0;
+	}
+
+	if (!data) return 0;
+
+	if (SQ->front >= MaxSize) {
+		cout << "队列已到尽头!" << endl;
+		return 0;
+	}
+
+	*data = SQ->queue[SQ->front];	//出队元素值
+	SQ->front = (SQ->front) + 1;	//队首指针后移以为
+	
+	return 1;
+}
 
 //打印队列中的元素
 void PrintQueue(SeqQueue* SQ) {
@@ -88,6 +109,31 @@ void PrintQueue(SeqQueue* SQ) {
 		i++;
 	}
 	cout << endl;
+}
+
+//获取队首元素, 不出队
+int GetHead(SeqQueue* SQ, DataType* data) {
+
+	if (!SQ || IsEmpty(SQ)) {
+		cout << "队列为空!" << endl;
+		return 0;
+	}
+
+	return *data = SQ->queue[SQ->front];
+}
+
+//清空队列
+void ClearQueue(SeqQueue* SQ) {
+	if (!SQ) return;
+	SQ->front = SQ->rear = 0;
+}
+
+//获取队列中元素的个数
+int getLength(SeqQueue* SQ) {
+
+	if (!SQ) return 0;
+
+	return SQ->rear - SQ->front;
 }
 
 int main(void) {
@@ -104,13 +150,19 @@ int main(void) {
 	}
 
 	//打印队列中的元素
-	printf("队列中的元素:");
+	printf("队列中的元素(总共 %d 个元素):", getLength(SQ));
 	PrintQueue(SQ);
 	cout << endl;
 
 	//出队
-	DeleteQueue(SQ, &data);
-	cout << "出队的元素是: " << data << endl;
+	//for (int i = 0; i < 10; i++) {
+		if (DeleteQueue2(SQ, &data)) {
+			cout << "出队的元素是: " << data << endl;
+		}
+		else {
+			cout << "出队失败! " << endl;
+		}
+	//}
 
 	//打印队列中的元素
 	printf("出队一个元素后, 队列中剩下的元素:");
