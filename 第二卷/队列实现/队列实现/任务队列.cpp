@@ -39,7 +39,7 @@ void InitQueue(LinkQueue* LQ) {
 	LQ->front = LQ->rear = NULL; //把对头和队尾指针同时置0
 }
 
-//判断队列为空 8979438401111
+//判断队列为空 
 int IsEmpty(LinkQueue* LQ) {
 	if (!LQ) return 0;
 	if (LQ->front == NULL)
