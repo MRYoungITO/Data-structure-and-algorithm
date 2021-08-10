@@ -56,6 +56,7 @@ void adjustDown(Heap& heap, int index) {
 			child++; 
 		}
 
+
 		//判断最大的节点是否大于当前的父节点 
 		if (cur >= heap.arr[child]) {//不大于，则不需要调整，跳出循环 
 			break;
