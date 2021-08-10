@@ -53,7 +53,7 @@ void adjustDown(Heap& heap, int index) {
 
 		//取两个子节点中的最大的节点 
 		if (((child + 1) < heap.size) && (heap.arr[child] < heap.arr[child + 1])) {
-			child++;
+			child++; 
 		}
 
 		//判断最大的节点是否大于当前的父节点 
