@@ -83,7 +83,8 @@ void heapSort(Heap& heap) {
 	}
 }
 
-/* 删除最大的节点，并获得节点的值*/ bool popMax(Heap& heap, int& value) {
+/* 删除最大的节点，并获得节点的值*/ 
+bool popMax(Heap& heap, int& value) {
 	if (heap.size < 1) return false;
 	value = heap.arr[0];
 	heap.arr[0] = heap.arr[--heap.size];
