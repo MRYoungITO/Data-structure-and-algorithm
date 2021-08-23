@@ -14,7 +14,7 @@ bool isLarger(const int& lhs, const int& rhs) {
 	return false;
 }
 
-int operate(int left, int right, int op) {//对运算符求值
+int operate(int left, int right, int op) { //对运算符求值
 
 	int result = 0;
 	cout << "left:" << left << " right:" << right << (char)op << endl;
